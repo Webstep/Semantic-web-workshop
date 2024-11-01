@@ -1,0 +1,32 @@
+@prefix star: <http://example.org/star-ontology/> .
+@prefix data: <http://example.org/star-data/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+star:Rocket a owl:Class ;
+ rdfs:label "Rocket" . 
+
+star:Lightbulb a owl:Class ;
+  rdfs:label "Lightbulb" .
+
+star:CelestialObject a owl:Class .
+
+star:MainSequenceStar a owl:Class ;
+    rdfs:label "Main Sequence Star" ;
+    rdfs:subClassOf star:Star .
+
+star:luminosity a owl:DatatypeProperty ;
+    rdfs:label "Luminosity" .
+
+star:rightAscension a owl:DatatypeProperty ;
+    rdfs:label "Right Ascension" ;
+    rdfs:domain star:Star .
+
+star:declination a owl:DatatypeProperty ;
+    rdfs:label "Declination" ;
+    rdfs:domain star:Star .
+
+star:Star a owl:Class ;
+    rdfs:label "Star" .
