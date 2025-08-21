@@ -1,0 +1,119 @@
+@prefix hvens:  <http://example.com/hvens#> .
+@prefix ex:     <http://example.com/hvens/ex#> .
+@prefix rdfs:   <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
+@prefix skos:   <http://www.w3.org/2004/02/skos/core#> .
+
+########################################################
+# Equipment hierarchy (concept side)
+########################################################
+
+# Top-level “thing” you install in the plant
+hvens:Equipment a rdfs:Class ;
+  rdfs:label "Equipment" .
+
+# Pump is a specialization of Equipment
+hvens:Pump a rdfs:Class ;
+  rdfs:subClassOf hvens:Equipment ;
+  rdfs:label "Pump" .
+
+# ENS pump subclasses (code → meaning)
+ex:Pump_PA a rdfs:Class ;
+  rdfs:subClassOf hvens:Pump ;
+  rdfs:label "Centrifugal pump (ENS PA)" ;
+  skos:notation "PA" .   # ENS code
+
+ex:Pump_PB a rdfs:Class ;
+  rdfs:subClassOf hvens:Pump ;
+  rdfs:label "Reciprocating pump (ENS PB)" ;
+  skos:notation "PB" .   # ENS code
+
+ex:Pump_PC a rdfs:Class ;
+  rdfs:subClassOf hvens:Pump ;
+  rdfs:label "Rotary pump (ENS PC)" ;
+  skos:notation "PC" .   # ENS code
+
+ex:Pump_PD a rdfs:Class ;
+  rdfs:subClassOf hvens:Pump ;
+  rdfs:label "Special metering pump (ENS PD)" ;
+  skos:notation "PD" .
+
+ex:Pump_PE a rdfs:Class ;
+  rdfs:subClassOf hvens:Pump ;
+  rdfs:label "Gear pump (ENS PE)" ;
+  skos:notation "PE" .
+
+ex:Pump_PF a rdfs:Class ;
+  rdfs:subClassOf hvens:Pump ;
+  rdfs:label "Diaphragm pump (ENS PF)" ;
+  skos:notation "PF" .
+
+ex:Pump_PG a rdfs:Class ;
+  rdfs:subClassOf hvens:Pump ;
+  rdfs:label "Screw pump (ENS PG)" ;
+  skos:notation "PG" .
+
+ex:Pump_PH a rdfs:Class ;
+  rdfs:subClassOf hvens:Pump ;
+  rdfs:label "Submerged pump, motor not submerged (ENS PH)" ;
+  skos:notation "PH" .   # vertical turbine / line-shaft style
+
+ex:Pump_PM a rdfs:Class ;
+  rdfs:subClassOf hvens:Pump ;
+  rdfs:label "Multiphase pump (ENS PM)" ;
+  skos:notation "PM" .
+
+ex:Pump_PS a rdfs:Class ;
+  rdfs:subClassOf hvens:Pump ;
+  rdfs:label "Submerged pump, motor submerged (ENS PS)" ;
+  skos:notation "PS" .
+
+ex:Pump_PX a rdfs:Class ;
+  rdfs:subClassOf hvens:Pump ;
+  rdfs:label "Miscellaneous pump (ENS PX)" ;
+  skos:notation "PX" .
+
+ex:Pump_PZ a rdfs:Class ;
+  rdfs:subClassOf hvens:Pump ;
+  rdfs:label "Pump package (ENS PZ)" ;
+  skos:notation "PZ" .
+
+########################################################
+# Bridge to your existing ENS model
+########################################################
+# If you've been using EquipSubGroup codes (PA/PH/...) as instances,
+# align them to these classes (optional but useful for queries):
+
+# ex:PA, ex:PH etc. might exist as code-list individuals in your ENS core.
+# Use skos:exactMatch (or owl:equivalentClass if you prefer) to relate them:
+
+ex:PA skos:exactMatch ex:Pump_PA .
+ex:PH skos:exactMatch ex:Pump_PH .
+# (repeat for PB, PC, …, PZ as needed)
+
+########################################################
+# System 50 pumps → assign the correct subclass via rdf:type
+########################################################
+# Reuse your actual pump individuals (from System 50 TTL).
+# Here we only add rdf:type assertions to the new pump subclasses.
+
+# Seawater lift pumps (PH)
+ex:Tag_50_PH50A a ex:Pump_PH .
+ex:Tag_50_PH50B a ex:Pump_PH .
+
+# Hot seawater circulation pumps (PA)
+ex:Tag_50_PA51A a ex:Pump_PA .
+ex:Tag_50_PA51B a ex:Pump_PA .
+ex:Tag_50_PA52  a ex:Pump_PA .
+
+########################################################
+# (Optional) convenience typing
+########################################################
+# If your tags were previously typed as hvens:EquipmentTag only,
+# you can also state they are equipment “things” (not just identifiers):
+
+ex:Tag_50_PH50A a hvens:Equipment .
+ex:Tag_50_PH50B a hvens:Equipment .
+ex:Tag_50_PA51A a hvens:Equipment .
+ex:Tag_50_PA51B a hvens:Equipment .
+ex:Tag_50_PA52  a hvens:Equipment .

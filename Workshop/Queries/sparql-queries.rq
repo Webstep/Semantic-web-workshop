@@ -1,0 +1,11 @@
+# List all pumps fulfilling requirements
+SELECT ?pump ?req WHERE {
+  ?pump a :Pump .
+  ?pump :fulfills ?req .
+}
+
+# Find equipment with flow rate >= 100 (manual filtering)
+SELECT ?eq WHERE {
+  ?eq :hasFlowRate ?rate .
+  FILTER (?rate >= 100)
+}

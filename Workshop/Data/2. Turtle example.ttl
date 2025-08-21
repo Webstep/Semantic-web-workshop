@@ -1,0 +1,52 @@
+prefix data: <http://www.webstep.no/workshop/data/>
+prefix ens: <http://www.webstep.no/workshop/ens/>
+
+# Data used for the Introduction to Terse RDF Triple Language (Turtle) section of the workshop
+# Defining the centrifugal pump and submerged pump types, and assigning a couple of pumps to each of these classes.
+
+# Centrifugal pump type (PA)
+ens:Pump_PA a ens:Pump ;
+    ens:name "Centrifugal pump" .
+
+# Seawater lift pump type (PH)
+ens:Pump_PH a ens:Pump ;
+    ens:name "Submerged pump" ;
+    ens:description "A submerged pump with the motor not submerged." .
+
+# Seawater lift pump instances (50-PH50A and 50-PH50B)
+data:50_PH50A a ens:Pump_PH ,
+                ens:Pump ;
+    ens:code  "50-PH50A" ;
+    ens:partOfSystem  data:System50 .
+    ens:designFlow_m3h 1460.0 ;
+    ens:normalFlow_m3h 1200.0 ;
+    ens:minFlow_m3h 229.0 ;
+    ens:operatingPressure_barg 9.0 ;
+    ens:diffPressure_barg 16.0 ;
+    ens:power_kW 700.0 ;
+    ens:locationDepth [
+        ens:hasValue 16.0 ;
+        ens:hasUom  ens:meter
+    ] .
+
+data:50_PH50B a ens:Pump_PH ,
+                ens:Pump ;
+    ens:code  "50-PH50B" ;
+    ens:partOfSystem  data:System50 ;
+    ens:designFlow_m3h 1460.0 ;
+    ens:normalFlow_m3h 1200.0 ;
+    ens:minFlow_m3h 229.0 ;
+    ens:operatingPressure_barg 9.0 ;
+    ens:diffPressure_barg 16.0 ;
+    ens:power_kW 700.0 ;
+    ens:locationDepth data:50_PH50B_locationDepth . 
+    
+data:50_PH50B_locationDepth ens:hasValue 16.0 ;
+                            ens:hasUom  ens:meter .
+
+# Centrifugal pump individuals (50-PA51A, 50-PA51B, 50-PA52)
+data:50_PA51A a ens:Pump_PA , ens:Pump .
+
+data:50_PA51B a ens:Pump_PA , ens:Pump .
+
+data:50_PA52 a ens:Pump_PA , ens:Pump .

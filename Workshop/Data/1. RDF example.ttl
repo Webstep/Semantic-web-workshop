@@ -1,0 +1,41 @@
+# Data used for the Introduction to Resource Description Framework (RDF) section of the workshop
+# Defining the centrifugal pump and submerged pump types, and assigning a couple of pumps to each of these classes.
+
+# Centrifugal pump type (PA)
+<http://www.webstep.no/workshop/ens/Pump_PA> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.webstep.no/workshop/ens/Pump> .
+<http://www.webstep.no/workshop/ens/Pump_PA> <http://www.webstep.no/workshop/ens/name> "Centrifugal pump" .
+
+# Seawater lift pump type (PH)
+<http://www.webstep.no/workshop/ens/Pump_PH> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.webstep.no/workshop/ens/Pump> .
+<http://www.webstep.no/workshop/ens/Pump_PH> <http://www.webstep.no/workshop/ens/name> "Submerged pump" .
+<http://www.webstep.no/workshop/ens/Pump_PH> <http://www.webstep.no/workshop/ens/description> "A submerged pump with the motor not submerged." .
+
+# Seawater lift pump instances (50-PH50A and 50-PH50B)
+<http://www.webstep.no/workshop/data/50_PH50A> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.webstep.no/workshop/ens/Pump_PH> .
+<http://www.webstep.no/workshop/data/50_PH50A> <http://www.webstep.no/workshop/ens/code>  "50-PH50A".
+<http://www.webstep.no/workshop/data/50_PH50A> <http://www.webstep.no/workshop/ens/partOfSystem>  <http://www.webstep.no/workshop/data/System50> .
+<http://www.webstep.no/workshop/data/50_PH50A> <http://www.webstep.no/workshop/ens/designFlow_m3h> 1460.0 .
+<http://www.webstep.no/workshop/data/50_PH50A> <http://www.webstep.no/workshop/ens/normalFlow_m3h> 1200.0 .
+<http://www.webstep.no/workshop/data/50_PH50A> <http://www.webstep.no/workshop/ens/minFlow_m3h> 229.0 .
+<http://www.webstep.no/workshop/data/50_PH50A> <http://www.webstep.no/workshop/ens/operatingPressure_barg> 9.0 .
+<http://www.webstep.no/workshop/data/50_PH50A> <http://www.webstep.no/workshop/ens/diffPressure_barg> 16.0 .
+<http://www.webstep.no/workshop/data/50_PH50A> <http://www.webstep.no/workshop/ens/power_kW> 700.0 .
+<http://www.webstep.no/workshop/data/50_PH50A> <http://www.webstep.no/workshop/ens/locationDepth_m> 16.0 .
+
+<http://www.webstep.no/workshop/data/50_PH50B> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.webstep.no/workshop/ens/Pump_PH> .
+<http://www.webstep.no/workshop/data/50_PH50B> <http://www.webstep.no/workshop/ens/code>  "50-PH50B".
+<http://www.webstep.no/workshop/data/50_PH50B> <http://www.webstep.no/workshop/ens/partOfSystem>  <http://www.webstep.no/workshop/data/System50>.
+<http://www.webstep.no/workshop/data/50_PH50B> <http://www.webstep.no/workshop/ens/designFlow_m3h> 1460.0 .
+<http://www.webstep.no/workshop/data/50_PH50B> <http://www.webstep.no/workshop/ens/normalFlow_m3h> 1200.0 .
+<http://www.webstep.no/workshop/data/50_PH50B> <http://www.webstep.no/workshop/ens/minFlow_m3h> 229.0 .
+<http://www.webstep.no/workshop/data/50_PH50B> <http://www.webstep.no/workshop/ens/operatingPressure_barg> 9.0 .
+<http://www.webstep.no/workshop/data/50_PH50B> <http://www.webstep.no/workshop/ens/diffPressure_barg> 16.0 .
+<http://www.webstep.no/workshop/data/50_PH50B> <http://www.webstep.no/workshop/ens/power_kW> 700.0 .
+<http://www.webstep.no/workshop/data/50_PH50B> <http://www.webstep.no/workshop/ens/locationDepth_m> 16.0 .
+
+# Centrifugal pump individuals (50-PA51A, 50-PA51B, 50-PA52)
+<http://www.webstep.no/workshop/data/50_PA51A> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.webstep.no/workshop/ens/Pump_PA> .
+
+<http://www.webstep.no/workshop/data/50_PA51B> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.webstep.no/workshop/ens/Pump_PA> .
+
+<http://www.webstep.no/workshop/data/50_PA52>  <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.webstep.no/workshop/ens/Pump_PA> .

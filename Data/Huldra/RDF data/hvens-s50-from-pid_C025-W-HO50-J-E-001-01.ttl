@@ -1,0 +1,105 @@
+@prefix hvens:  <http://example.com/hvens#> .
+@prefix ex:     <http://example.com/hvens/ex#> .
+@prefix rdfs:   <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
+
+ex:S50 a hvens:System ; hvens:number "50" ; hvens:label "Seawater system" .
+
+ex:50_PH50A a hvens:EquipmentTag ;
+  hvens:number "50-PH50A" ;
+  hvens:inSystem ex:S50 ;
+  hvens:inArea ex:AreaHE ;
+  hvens:hasEquipClass ex:PH ;
+  hvens:sequence 50 ;
+  rdfs:label "" .
+
+ex:50_PH50B a hvens:EquipmentTag ;
+  hvens:number "50-PH50B" ;
+  hvens:inSystem ex:S50 ;
+  hvens:inArea ex:AreaHE ;
+  hvens:hasEquipClass ex:PH ;
+  hvens:sequence 50 ;
+  rdfs:label "" .
+
+ex:50_PA51A a hvens:EquipmentTag ;
+  hvens:number "50-PA51A" ;
+  hvens:inSystem ex:S50 ;
+  hvens:inArea ex:AreaHE ;
+  hvens:hasEquipClass ex:PA ;
+  hvens:sequence 51 ;
+  rdfs:label "" .
+
+ex:50_PA51B a hvens:EquipmentTag ;
+  hvens:number "50-PA51B" ;
+  hvens:inSystem ex:S50 ;
+  hvens:inArea ex:AreaHE ;
+  hvens:hasEquipClass ex:PA ;
+  hvens:sequence 51 ;
+  rdfs:label "" .
+
+ex:50_PA52 a hvens:EquipmentTag ;
+  hvens:number "50-PA52" ;
+  hvens:inSystem ex:S50 ;
+  hvens:inArea ex:AreaHE ;
+  hvens:hasEquipClass ex:PA ;
+  hvens:sequence 52 ;
+  rdfs:label "" .
+
+ex:50_CA50A a hvens:EquipmentTag ;
+  hvens:number "50-CA50A" ;
+  hvens:inSystem ex:S50 ;
+  hvens:inArea ex:AreaHE ;
+  hvens:hasEquipClass ex:CA ;
+  hvens:sequence 50 ;
+  rdfs:label "" .
+
+ex:50_CA50B a hvens:EquipmentTag ;
+  hvens:number "50-CA50B" ;
+  hvens:inSystem ex:S50 ;
+  hvens:inArea ex:AreaHE ;
+  hvens:hasEquipClass ex:CA ;
+  hvens:sequence 50 ;
+  rdfs:label "" .
+
+ex:50_TG50A a hvens:EquipmentTag ;
+  hvens:number "50-TG50A" ;
+  hvens:inSystem ex:S50 ;
+  hvens:inArea ex:AreaHE ;
+  hvens:hasEquipClass ex:TG ;
+  hvens:sequence 50 ;
+  rdfs:label "" .
+
+ex:50_TG50B a hvens:EquipmentTag ;
+  hvens:number "50-TG50B" ;
+  hvens:inSystem ex:S50 ;
+  hvens:inArea ex:AreaHE ;
+  hvens:hasEquipClass ex:TG ;
+  hvens:sequence 50 ;
+  rdfs:label "" .
+
+ex:50_PSV2031 a hvens:InstrumentTag ;
+  hvens:number "50-PSV2031" ;
+  hvens:inSystem ex:S50 ;
+  hvens:inArea ex:AreaHE ;
+  hvens:functionCode "PSV" ;
+  hvens:sequence 2031 ;
+  rdfs:label "" .
+
+ex:50_PSV2032 a hvens:InstrumentTag ;
+  hvens:number "50-PSV2032" ;
+  hvens:inSystem ex:S50 ;
+  hvens:inArea ex:AreaHE ;
+  hvens:functionCode "PSV" ;
+  hvens:sequence 2032 ;
+  rdfs:label "" .
+
+ex:12__WS_50022_BC21A a hvens:LineNumber ;
+  hvens:number "12"-WS-50022-BC21A" ;
+  hvens:inSystem ex:S50 ;
+  hvens:inArea ex:AreaHE ;
+  hvens:size "12"" ;
+  hvens:serviceCode "WS" ;
+  hvens:pipeClass "BC21A" ;
+  hvens:insulationClass "0" ;
+  hvens:sequence 22 ;
+  rdfs:label "" .
