@@ -8,6 +8,7 @@ Semantic-Web-Workshop/
     Huldra/
        Original docs/   # The original documentation of the Huldra asset
        RDF data/        # AI generated RDF representations of the various Huldra data
+    JDK/                # Installation instructions for JDK needed for running fuseki and reasoner 
     Fuseki/             # Installation instructions and configurations to run Fuseki
     Reasoner/           # Instructions for setting up and using a reasoner
     Rowlet/             # Rowlet is a simple tool for visualizing RDF data (might not be used in the workshop)
@@ -21,7 +22,13 @@ Semantic-Web-Workshop/
 
 The following things should be taken care of before the workshop:
 
-- Clone the repository
+- Install or verify installation of JDK
+    - Open terminal and run
+    ```
+    java
+    ```
+
+- Clone this repository
 - Download and set up Apache Jena Fuseki
 
 *Note:* Additional preparations will be added as more of the workshop content becomes available.

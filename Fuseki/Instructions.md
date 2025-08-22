@@ -1,5 +1,5 @@
 ## Local Fuseki
-Download the Fuseki server from https://jena.apache.org/download/
+Download the Apache Jena Binary Distribution v.5.5.0 from https://jena.apache.org/download/
 
 Unzip the downloaded file to a folder of your choice.
 
