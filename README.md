@@ -33,6 +33,16 @@ The following things should be taken care of before the workshop:
 
 *Note:* Additional preparations will be added as more of the workshop content becomes available.
 
+## Additional resources
+
+- [RDF Concept Vocabulary](https://www.w3.org/1999/02/22-rdf-syntax-ns#)    
+- [RDF 1.1 Primer](https://www.w3.org/TR/rdf11-primer/)
+- [Turtle - Terse RDF Triple Language](https://www.w3.org/TR/turtle/)
+- [SPARQL 1.1 Query Language](https://www.w3.org/TR/sparql11-query/)
+- [RDF Schema 1.1](https://www.w3.org/TR/rdf-schema/)
+- [OWL 2 Web Ontology Language Document Overview](https://www.w3.org/TR/owl2-overview/)
+- [SHACL - Shapes Constraint Language](https://www.w3.org/TR/shacl/)
+
 ## Agenda
 
 **Saturday:**

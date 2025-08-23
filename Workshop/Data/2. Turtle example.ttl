@@ -17,7 +17,7 @@ ens:Pump_PH a ens:Pump ;
 data:50_PH50A a ens:Pump_PH ,
                 ens:Pump ;
     ens:code  "50-PH50A" ;
-    ens:partOfSystem  data:System50 .
+    ens:partOfSystem  "System50" ;
     ens:designFlow_m3h 1460.0 ;
     ens:normalFlow_m3h 1200.0 ;
     ens:minFlow_m3h 229.0 ;
@@ -32,7 +32,7 @@ data:50_PH50A a ens:Pump_PH ,
 data:50_PH50B a ens:Pump_PH ,
                 ens:Pump ;
     ens:code  "50-PH50B" ;
-    ens:partOfSystem  data:System50 ;
+    ens:partOfSystem  "System50" ;
     ens:designFlow_m3h 1460.0 ;
     ens:normalFlow_m3h 1200.0 ;
     ens:minFlow_m3h 229.0 ;

@@ -1,0 +1,283 @@
+# Queries used in the Introduction to SPARQL section
+
+###########################  SELECT QUERIES  ############################
+
+# QUERY 1: WILDCARD QUERY RETURNING ALL VALUES FOR ALL VARIABLES MATCHING ALL TRIPLES 
+SELECT * 
+WHERE {
+  ?subject ?predicate ?object .
+}
+
+# QUERY 2A: RETURNING ALL SUBJECTS THAT SOMEHOW IS RELATED TO A PUMP
+SELECT ?subject 
+WHERE {
+  ?subject ?predicate <http://www.webstep.no/workshop/ens/Pump> .
+}
+
+# QUERY 2B: SAME AS ABOVE, BUT WITH PREFIX
+PREFIX ens:  	<http://www.webstep.no/workshop/ens/>
+
+SELECT ?subject 
+WHERE {
+  ?subject ?predicate ens:Pump .
+}
+
+# QUERY 3: COUNTING THE NUMBER OF TIMES A PREDICATE IS USED 
+SELECT ?predicate (count(?predicate) AS ?numberOf) 
+WHERE {
+  ?subject ?predicate ?object .
+}
+GROUP BY ?predicate
+#ORDER BY DESC(?numberOf)
+
+# QUERY 4: CAN WE COUNT INSTANCES OF PUMP?
+SELECT ?pump (count(?pump) AS ?numberOf) 
+WHERE {
+  ?subject ?predicate ?pump .
+}
+GROUP BY ?pump
+
+# QUERY 5A: COUNT INDIVIDUAL THAT IS AT LEAST OF TYPE PUMP 
+SELECT ?pump (count(?pump) AS ?numberOf) 
+WHERE {
+  ?subject a ens:Pump .
+  ?subject a ?pump .
+}
+GROUP BY ?pump
+
+# QUERY 5B:GRAPH PATTERNS IN SPARQL CAN BE WRITTEN AS TURTLE
+PREFIX ens:  	<http://www.webstep.no/workshop/ens/>
+SELECT ?pump (count(?pump) AS ?numberOf) 
+WHERE {
+  ?subject a ens:Pump , ?pump .
+}
+GROUP BY ?pump
+
+# QUERY 6SUMMATION OF PROPERTIES FOR THE SUBMERGED PUMPS
+PREFIX ens:  	<http://www.webstep.no/workshop/ens/>   
+SELECT ?flowProperty  (sum(?normalFlow) AS ?totalFlow) 
+WHERE {
+  ?subject a ens:Pump_PH ;
+  		  ?flowProperty ?normalFlow .
+}
+GROUP BY ?flowProperty
+
+# QUERY 7: FILTERING SO THAT ONLY NORMAL FLOW IS SUMMED
+PREFIX ens:  	<http://www.webstep.no/workshop/ens/>   
+SELECT ?flowProperty  (sum(?normalFlow) AS ?totalFlow) 
+WHERE {
+  ?subject a ens:Pump_PH ;
+  		  ?flowProperty ?normalFlow .
+
+  FILTER(?flowProperty = ens:normalFlow_m3h)
+}
+GROUP BY ?flowProperty
+
+# QUERY 8: ONLY GET PUMPS WHERE THE NORMAL FLOW HAS A VALUE
+PREFIX ens:  	<http://www.webstep.no/workshop/ens/>   
+SELECT ?pump ?normalFlow 
+WHERE {
+  ?pump a ens:Pump ;
+  		  ens:normalFlow_m3h ?normalFlow .
+}
+
+# QUERY 9: GET PUMPS WITH OR WITHOUT NORMAL FLOW VALUES
+PREFIX ens:  	<http://www.webstep.no/workshop/ens/>   
+SELECT ?pump ?normalFlow 
+WHERE {
+  ?pump a ens:Pump .
+  OPTIONAL { ?pump ens:normalFlow_m3h ?normalFlow . }
+}
+
+###########################  CONSTRUCT QUERIES  ############################
+
+# QUERY 10: COPY THE ENTIRE GRAPH
+CONSTRUCT { ?s ?p ?o . } 
+WHERE {
+  ?s ?p ?o .
+}
+
+# QUERY 11: RETURN TRIPLES FOR AN INDIVIDUAL
+PREFIX data:  	<http://www.webstep.no/workshop/data/>
+CONSTRUCT { data:50_PH50B ?p ?o . } 
+WHERE {
+  data:50_PH50B ?p ?o .
+}
+
+# QUERY 12: RETURN NESTED TRIPLES FOR AN INDIVIDUAL
+PREFIX data:  	<http://www.webstep.no/workshop/data/>
+CONSTRUCT 
+{ 
+  ?pump ?firstLevelProperties ?firstLevelObjects .
+  ?firstLevelObjects ?secondLevelProperties ?secondLevelObjects
+} 
+WHERE {
+  ?pump ?firstLevelProperties ?firstLevelObjects .
+  
+  OPTIONAL { ?firstLevelObjects ?secondLevelProperties ?secondLevelObjects }
+  
+  FILTER(?pump = data:50_PH50B)
+}
+
+# QUERY 13: CREATE AN IRI AND BIND IT TO A NEW VARIABLE
+PREFIX data:  	<http://www.webstep.no/workshop/data/>
+PREFIX ens:  	<http://www.webstep.no/workshop/ens/>  
+CONSTRUCT
+{  
+  ?systemIRI a ens:System .
+} 
+WHERE 
+{
+  ?pump a ens:Pump ;
+        ens:partOfSystem ?system .
+
+  BIND(IRI(CONCAT(STR(data:), ?system)) AS ?systemIRI )
+}
+
+# QUERY 14: EXTEND QUERY 13 TO PRODUCE MORE TRIPLES
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX data:  	<http://www.webstep.no/workshop/data/>
+PREFIX ens:  	<http://www.webstep.no/workshop/ens/>  
+CONSTRUCT
+{  
+  ?systemIRI a ens:System ;
+             rdfs:label ?system .
+  ?pump ens:partOfSystem ?systemIRI .
+} 
+WHERE 
+{
+  ?pump a ens:Pump ;
+        ens:partOfSystem ?system .
+
+  BIND(IRI(CONCAT(STR(data:), ?system)) AS ?systemIRI )
+}
+
+###########################  ASK QUERIES  ############################
+
+# QUERY 15: DOES THE SYSTEM DATA CREATED IN QUERY 14 EXIST?
+PREFIX rdfs:  <http://www.w3.org/2000/01/rdf-schema#> 
+PREFIX ens:  	<http://www.webstep.no/workshop/ens/>  
+ASK
+WHERE
+{  
+  ?systemIRI a ens:System ;
+             rdfs:label ?system .
+  ?pump ens:partOfSystem ?systemIRI .
+} 
+
+# QUERY 16: DOES AT LEAST 1 PUMP THAT IS PART OF A SYSTEM AND AT A LOCATION DEPTH OF 16.0 EXIST?
+PREFIX ens:  	<http://www.webstep.no/workshop/ens/>  
+ASK
+WHERE 
+{
+  ?pump a ens:Pump ;
+        ens:partOfSystem ?system ;
+        ens:locationDepth [
+			ens:hasValue 16.0 
+		]
+}
+
+
+#########################  DESCRIBE QUERIES  #########################
+
+# QUERY 17: WHAT IS KNOWN ABOUT A SPECIFIC INDIVIDUAL
+PREFIX data:  <http://www.webstep.no/workshop/data/>
+DESCRIBE data:50_PH50B
+
+# QUERY 18: WHAT IS KNOWN ABOUT A SPECIFIC INDIVIDUAL WITH BLANK NODES?
+PREFIX data:  <http://www.webstep.no/workshop/data/>
+DESCRIBE data:50_PH50A
+
+# QUERY 18: WHAT IS KNOWN ABOUT A GIVEN PUMP AND ITS LOCATION DEPTH?
+PREFIX data:  <http://www.webstep.no/workshop/data/>
+PREFIX ens:  	<http://www.webstep.no/workshop/ens/>
+DESCRIBE ?pump ?locationDepth
+WHERE
+{
+	?pump a ens:Pump_PH ;
+          ens:locationDepth ?locationDepth .
+
+	FILTER(?pump = data:50_PH50B)
+}
+
+###########################  UPDATE QUERIES  #########################
+
+# QUERY 19: INSERT NEW DATA
+PREFIX rdfs:  <http://www.w3.org/2000/01/rdf-schema#> 
+PREFIX data:  <http://www.webstep.no/workshop/data/>
+PREFIX ens:  	<http://www.webstep.no/workshop/ens/>  
+INSERT DATA
+{  
+  data:System50 a ens:System ;
+             rdfs:label "System 50" .
+}
+
+# QUERY 20: PREPARATIONS FOR CREATING NEW RELATIONSHIPS
+PREFIX rdfs:  <http://www.w3.org/2000/01/rdf-schema#> 
+PREFIX data:  <http://www.webstep.no/workshop/data/>
+PREFIX ens:  	<http://www.webstep.no/workshop/ens/>  
+CONSTRUCT
+{  
+	?pump ens:partOfSystem ?systemIri .
+}
+WHERE
+{
+  ?system a ens:System .
+  ?pump ens:partOfSystem ?systemLabel .
+  
+  BIND(IF(CONTAINS(STR(?system), ?systemLabel), ?system, ?undefined) AS ?systemIri)
+}
+
+# QUERY 21: INSERTING NEW RELATIONSHIPS
+PREFIX rdfs:  <http://www.w3.org/2000/01/rdf-schema#> 
+PREFIX data:  <http://www.webstep.no/workshop/data/>
+PREFIX ens:  	<http://www.webstep.no/workshop/ens/>  
+INSERT
+{  
+	?pump ens:partOfSystem ?systemIri .
+}
+WHERE
+{
+  ?system a ens:System .
+  ?pump ens:partOfSystem ?systemLabel .
+  
+  BIND(IF(CONTAINS(STR(?system), ?systemLabel), ?system, ?undefined) AS ?systemIri)
+}
+
+# QUERY 22: PREPARATIONS FOR DELETING OLD RELATIONSHIPS
+PREFIX rdfs:  <http://www.w3.org/2000/01/rdf-schema#> 
+PREFIX data:  <http://www.webstep.no/workshop/data/>
+PREFIX ens:  	<http://www.webstep.no/workshop/ens/>  
+CONSTRUCT
+{  
+	?pump ens:partOfSystem ?system .
+}
+WHERE
+{
+  ?pump a ens:Pump ;
+   		ens:partOfSystem ?system .
+  
+  #FILTER ISLITERAL(?system)
+}
+
+# QUERY 23: DELETING OLD RELATIONSHIPS
+PREFIX rdfs:  <http://www.w3.org/2000/01/rdf-schema#> 
+PREFIX data:  <http://www.webstep.no/workshop/data/>
+PREFIX ens:  	<http://www.webstep.no/workshop/ens/>  
+DELETE
+{  
+	?pump ens:partOfSystem ?system .
+}
+WHERE
+{
+  ?pump a ens:Pump ;
+   		ens:partOfSystem ?system .
+  
+  FILTER ISLITERAL(?system)
+}
+
+# QUERY 24: REVIEW CHANGES
+CONSTRUCT { ?s ?p ?o . } 
+WHERE {
+  ?s ?p ?o .
+}

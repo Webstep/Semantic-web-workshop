@@ -13,7 +13,7 @@
 # Seawater lift pump instances (50-PH50A and 50-PH50B)
 <http://www.webstep.no/workshop/data/50_PH50A> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.webstep.no/workshop/ens/Pump_PH> .
 <http://www.webstep.no/workshop/data/50_PH50A> <http://www.webstep.no/workshop/ens/code>  "50-PH50A".
-<http://www.webstep.no/workshop/data/50_PH50A> <http://www.webstep.no/workshop/ens/partOfSystem>  <http://www.webstep.no/workshop/data/System50> .
+<http://www.webstep.no/workshop/data/50_PH50A> <http://www.webstep.no/workshop/ens/partOfSystem>  "System50" .
 <http://www.webstep.no/workshop/data/50_PH50A> <http://www.webstep.no/workshop/ens/designFlow_m3h> 1460.0 .
 <http://www.webstep.no/workshop/data/50_PH50A> <http://www.webstep.no/workshop/ens/normalFlow_m3h> 1200.0 .
 <http://www.webstep.no/workshop/data/50_PH50A> <http://www.webstep.no/workshop/ens/minFlow_m3h> 229.0 .
@@ -24,7 +24,7 @@
 
 <http://www.webstep.no/workshop/data/50_PH50B> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.webstep.no/workshop/ens/Pump_PH> .
 <http://www.webstep.no/workshop/data/50_PH50B> <http://www.webstep.no/workshop/ens/code>  "50-PH50B".
-<http://www.webstep.no/workshop/data/50_PH50B> <http://www.webstep.no/workshop/ens/partOfSystem>  <http://www.webstep.no/workshop/data/System50>.
+<http://www.webstep.no/workshop/data/50_PH50B> <http://www.webstep.no/workshop/ens/partOfSystem>  "System50" .
 <http://www.webstep.no/workshop/data/50_PH50B> <http://www.webstep.no/workshop/ens/designFlow_m3h> 1460.0 .
 <http://www.webstep.no/workshop/data/50_PH50B> <http://www.webstep.no/workshop/ens/normalFlow_m3h> 1200.0 .
 <http://www.webstep.no/workshop/data/50_PH50B> <http://www.webstep.no/workshop/ens/minFlow_m3h> 229.0 .
