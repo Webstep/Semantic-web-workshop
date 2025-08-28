@@ -1,4 +1,4 @@
 PREFIX data: <http://www.webstep.no/workshop/data/>
 PREFIX ens:  <http://www.webstep.no/workshop/ens/>
 
-data:System50 ens:hasDiscipline data:DiscP,
+data:System50 ens:hasDiscipline data:DiscP .
