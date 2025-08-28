@@ -5,17 +5,16 @@ A work in progress repo for the knowledge graph workshop
 
 ```
 Semantic-Web-Workshop/
+    Data/               # Data used in the workshop
     Huldra/
        Original docs/   # The original documentation of the Huldra asset
        RDF data/        # AI generated RDF representations of the various Huldra data
-    JDK/                # Installation instructions for JDK needed for running fuseki and reasoner 
-    Fuseki/             # Installation instructions and configurations to run Fuseki
-    Reasoner/           # Instructions for setting up and using a reasoner
-    Rowlet/             # Rowlet is a simple tool for visualizing RDF data (might not be used in the workshop)
-    Workshop/
-        Data/           # Data used in the workshop
-        Presentations/  # Presentation materials for the workshop
-        Queries/        # SPARQL queries used in the workshop
+    Presentations/      # Presentation materials for the workshop
+    Queries/            # SPARQL queries used in the workshop
+    Tools/              # Tools used in the workshop
+        JDK/                # Installation instructions for JDK needed for running fuseki and reasoner
+        Fuseki/             # Installation instructions and configurations to run Fuseki
+        Protégé/            # Instructions for downloading Protégé
 ```
 
 ## Preparations
@@ -30,6 +29,7 @@ The following things should be taken care of before the workshop:
 
 - Clone this repository
 - Download and set up Apache Jena Fuseki
+- Download Protégé
 
 *Note:* Additional preparations will be added as more of the workshop content becomes available.
 
