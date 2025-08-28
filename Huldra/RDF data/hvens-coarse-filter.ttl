@@ -1,0 +1,31 @@
+ex:50-CA50A ex:vesselType "coarse_filter" ;
+            ex:orientation "vertical" ;
+            ex:service "Sea Water Coarse Filter Package" ;
+            ex:contents "Sea Water Note 2.0" ;
+            ex:operatingPressureMin_barg "7.0"^^xsd:double ;
+            ex:operatingPressureMax_barg "13.0"^^xsd:double ;
+            ex:designPressure_barg "15.0"^^xsd:double ;
+            ex:operatingTempMin_C "4.0"^^xsd:double ;
+            ex:operatingTempMax_C "12.5"^^xsd:double ;
+            ex:designTempMax_C "50.0"^^xsd:double ;
+            ex:internalDiameter_mm "726.0"^^xsd:double ;
+            ex:lengthTanToTan_mm "1400.0"^^xsd:double ;
+            ex:corrosionAllowance_mm "0.0"^^xsd:double ;
+            ex:flowNormal_kgh "1245.0"^^xsd:double ;
+            ex:flowMax_kgh "1305.0"^^xsd:double .
+
+ex:50-CA50B ex:vesselType "coarse_filter" ;
+            ex:orientation "vertical" ;
+            ex:service "Sea Water Coarse Filter Package" ;
+            ex:contents "Sea Water Note 2.0" ;
+            ex:operatingPressureMin_barg "7.0"^^xsd:double ;
+            ex:operatingPressureMax_barg "13.0"^^xsd:double ;
+            ex:designPressure_barg "15.0"^^xsd:double ;
+            ex:operatingTempMin_C "4.0"^^xsd:double ;
+            ex:operatingTempMax_C "12.5"^^xsd:double ;
+            ex:designTempMax_C "50.0"^^xsd:double ;
+            ex:internalDiameter_mm "726.0"^^xsd:double ;
+            ex:lengthTanToTan_mm "1400.0"^^xsd:double ;
+            ex:corrosionAllowance_mm "0.0"^^xsd:double ;
+            ex:flowNormal_kgh "1245.0"^^xsd:double ;
+            ex:flowMax_kgh "1305.0"^^xsd:double .

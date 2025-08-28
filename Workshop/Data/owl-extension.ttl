@@ -1,23 +1,28 @@
-@prefix : <http://example.org/oilandgas#> .
+@prefix :    <http://example.org/oilandgas#> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
-@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rdfs:<http://www.w3.org/2000/01/rdf-schema#> .
+
+:Pump a owl:Class .
+
+:hasFlowRate a owl:DatatypeProperty ;
+  rdfs:range xsd:decimal .
 
 :HighFlowPump a owl:Class ;
-    owl:equivalentClass [
-        a owl:Class ;
-        owl:intersectionOf (
-            :Pump
-            [ a owl:Restriction ;
-              owl:onProperty :hasFlowRate ;
-              owl:someValuesFrom [
-                a rdfs:Datatype ;
-                owl:onDatatype xsd:decimal ;
-                owl:withRestrictions ( [ xsd:minInclusive 100 ] )
-              ]
-            ]
-        )
-    ] .
+  owl:equivalentClass [
+    a owl:Class ;
+    owl:intersectionOf (
+      :Pump
+      [ a owl:Restriction ;
+        owl:onProperty :hasFlowRate ;
+        owl:someValuesFrom [
+          a rdfs:Datatype ;
+          owl:onDatatype xsd:decimal ;
+          owl:withRestrictions ( [ xsd:minInclusive "100.0"^^xsd:decimal ] )
+        ]
+      ]
+    )
+  ] .
 
 :MyPump a :Pump ;
-   :hasFlowRate 125.0 ;
+  :hasFlowRate 125.0 .

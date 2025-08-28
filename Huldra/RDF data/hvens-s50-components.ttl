@@ -1,0 +1,211 @@
+@prefix hvens:  <http://example.com/hvens#> .
+@prefix ex:     <http://example.com/hvens/ex#> .
+@prefix rdfs:   <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
+@prefix skos:   <http://www.w3.org/2004/02/skos/core#> .
+
+########################################################
+# Minimal seawater topology & shutdown vocabulary
+########################################################
+ex:SystemTopology    a rdfs:Class .
+ex:ConnectionPoint   a rdfs:Class .
+ex:Header            a rdfs:Class .
+ex:Cooler            a rdfs:Class .
+ex:Valve             a rdfs:Class .
+ex:Loop              a rdfs:Class .
+ex:ProtectiveDevice  a rdfs:Class .
+
+# relationships
+ex:partOfSystem    a rdf:Property .
+ex:locatedInArea   a rdf:Property .
+ex:hasMedium       a rdf:Property .
+ex:suctionFrom     a rdf:Property .
+ex:dischargesTo    a rdf:Property .
+ex:feeds           a rdf:Property .
+ex:reliefTo        a rdf:Property .
+ex:protects        a rdf:Property .
+ex:hasProtection   a rdf:Property .
+ex:hasLoop         a rdf:Property .
+ex:regulatedBy     a rdf:Property .
+ex:recyclesTo      a rdf:Property .
+
+# behavior / function
+ex:function        a rdf:Property ; rdfs:comment "Short human-readable function." .
+ex:duty            a rdf:Property ; rdfs:comment "duty/standby/parallel." .
+ex:designFlow_m3h  a rdf:Property .
+ex:minFlow_m3h     a rdf:Property .
+ex:diffPressure_barg a rdf:Property .
+ex:operatingPressure_barg a rdf:Property .
+
+# shutdown / safety
+ex:isShutdownRelated a rdf:Property ; rdfs:range xsd:boolean .
+ex:shutdownSystem    a rdf:Property ; rdfs:comment "e.g., ESD, PSD; update when verified." .
+ex:trips             a rdf:Property ; rdfs:comment "Loop/condition that trips the subject." .
+
+########################################################
+# System anchor & media
+########################################################
+ex:S50 a hvens:System ;
+  hvens:number "50" ;
+  hvens:label "Seawater system" .
+
+ex:WS a rdfs:Resource ; rdfs:label "WS – Seawater" .
+
+########################################################
+# Equipment classes (pump types you’re using)
+########################################################
+hvens:Equipment a rdfs:Class .
+hvens:Pump      a rdfs:Class ; rdfs:subClassOf hvens:Equipment .
+ex:Pump_PA      a rdfs:Class ; rdfs:subClassOf hvens:Pump ; rdfs:label "Centrifugal pump (ENS PA)" .
+ex:Pump_PH      a rdfs:Class ; rdfs:subClassOf hvens:Pump ; rdfs:label "Submerged pump, motor not submerged (ENS PH)" .
+
+########################################################
+# Key connection nodes
+########################################################
+ex:SW_Intake              a ex:ConnectionPoint ; rdfs:label "Seawater intake (sea)" ; ex:hasMedium ex:WS .
+ex:SW_Lift_DischargeHdr   a ex:Header ; rdfs:label "Lift pumps discharge header" ; ex:hasMedium ex:WS ; ex:partOfSystem ex:S50 .
+ex:SW_Filter_InHdr        a ex:Header ; rdfs:label "Filter inlet header" ; ex:hasMedium ex:WS ; ex:partOfSystem ex:S50 .
+ex:SW_Filter_OutHdr       a ex:Header ; rdfs:label "Filter outlet header" ; ex:hasMedium ex:WS ; ex:partOfSystem ex:S50 .
+ex:SW_Users_Distribution  a ex:Header ; rdfs:label "Downstream distribution to users" ; ex:hasMedium ex:WS ; ex:partOfSystem ex:S50 .
+ex:SW_Overboard           a ex:ConnectionPoint ; rdfs:label "Overboard discharge" ; ex:hasMedium ex:WS .
+
+########################################################
+# Pumps (lift + hot SW circulation)
+########################################################
+# Lift pumps (PH)
+ex:Tag_50_PH50A a hvens:EquipmentTag, ex:Pump_PH ;
+  hvens:number "50-PH50A" ;
+  ex:partOfSystem ex:S50 ; ex:hasMedium ex:WS ;
+  ex:function "Lift raw seawater from caisson to filter train." ;
+  ex:duty "A/B duty/standby" ;
+  ex:suctionFrom ex:SW_Intake ;
+  ex:dischargesTo ex:SW_Lift_DischargeHdr ;
+  ex:designFlow_m3h "1460"^^xsd:double ;
+  ex:minFlow_m3h "229"^^xsd:double ;
+  ex:diffPressure_barg "16"^^xsd:double ;
+  ex:operatingPressure_barg "9"^^xsd:double .
+
+ex:Tag_50_PH50B a hvens:EquipmentTag, ex:Pump_PH ;
+  hvens:number "50-PH50B" ;
+  ex:partOfSystem ex:S50 ; ex:hasMedium ex:WS ;
+  ex:function "Lift raw seawater from caisson to filter train." ;
+  ex:duty "A/B duty/standby" ;
+  ex:suctionFrom ex:SW_Intake ;
+  ex:dischargesTo ex:SW_Lift_DischargeHdr ;
+  ex:designFlow_m3h "1460"^^xsd:double ;
+  ex:minFlow_m3h "229"^^xsd:double ;
+  ex:diffPressure_barg "16"^^xsd:double ;
+  ex:operatingPressure_barg "9"^^xsd:double .
+
+# Hot seawater circulation pumps (PA) — included here for completeness
+ex:Tag_50_PA51A a hvens:EquipmentTag, ex:Pump_PA ;
+  hvens:number "50-PA51A" ;
+  ex:partOfSystem ex:S50 ; ex:hasMedium ex:WS ;
+  ex:function "Circulate heated seawater to wet-gas coolers; flow controlled on demand." ;
+  ex:duty "A/B duty/standby" ;
+  ex:dischargesTo ex:SW_Users_Distribution ;
+  ex:minFlow_m3h "32.8"^^xsd:double ;
+  ex:diffPressure_barg "4.2"^^xsd:double ;
+  ex:isShutdownRelated true ;
+  ex:shutdownSystem "ESD (assumed; confirm level)" .
+
+ex:Tag_50_PA51B a hvens:EquipmentTag, ex:Pump_PA ;
+  hvens:number "50-PA51B" ;
+  ex:partOfSystem ex:S50 ; ex:hasMedium ex:WS ;
+  ex:function "Circulate heated seawater to wet-gas coolers; flow controlled on demand." ;
+  ex:duty "A/B duty/standby" ;
+  ex:dischargesTo ex:SW_Users_Distribution ;
+  ex:minFlow_m3h "32.8"^^xsd:double ;
+  ex:diffPressure_barg "4.2"^^xsd:double ;
+  ex:isShutdownRelated true ;
+  ex:shutdownSystem "ESD (assumed; confirm level)" .
+
+########################################################
+# Coarse filters (CA)
+########################################################
+ex:Tag_50_CA50A a hvens:EquipmentTag ;
+  hvens:number "50-CA50A" ;
+  ex:partOfSystem ex:S50 ; ex:hasMedium ex:WS ;
+  ex:function "Coarse filtration of SW from lift pumps (≈200 μm) before distribution." ;
+  ex:suctionFrom ex:SW_Lift_DischargeHdr ;
+  ex:dischargesTo ex:SW_Filter_OutHdr .
+
+ex:Tag_50_CA50B a hvens:EquipmentTag ;
+  hvens:number "50-CA50B" ;
+  ex:partOfSystem ex:S50 ; ex:hasMedium ex:WS ;
+  ex:function "Coarse filtration of SW from lift pumps (≈200 μm) before distribution." ;
+  ex:suctionFrom ex:SW_Lift_DischargeHdr ;
+  ex:dischargesTo ex:SW_Filter_OutHdr .
+
+# header continuity
+ex:SW_Lift_DischargeHdr ex:feeds ex:SW_Filter_InHdr .
+ex:SW_Filter_InHdr ex:feeds ex:Tag_50_CA50A, ex:Tag_50_CA50B .
+ex:SW_Filter_OutHdr ex:feeds ex:SW_Users_Distribution .
+
+########################################################
+# Sumps / caissons (TG) + overboard caisson
+########################################################
+ex:Tag_50_TG50A a hvens:EquipmentTag ;
+  hvens:number "50-TG50A" ;
+  ex:partOfSystem ex:S50 ;
+  ex:function "Pump caisson A: wet well for seawater lift pumps." ;
+  ex:feeds ex:SW_Intake .
+
+ex:Tag_50_TG50B a hvens:EquipmentTag ;
+  hvens:number "50-TG50B" ;
+  ex:partOfSystem ex:S50 ;
+  ex:function "Pump caisson B: wet well for seawater lift pumps." ;
+  ex:feeds ex:SW_Intake .
+
+ex:Tag_50_TG51 a hvens:EquipmentTag ;
+  hvens:number "50-TG51" ;
+  ex:partOfSystem ex:S50 ;
+  ex:function "Overboard caisson for pressure relief/controlled discharge to sea." ;
+  ex:dischargesTo ex:SW_Overboard .
+
+########################################################
+# Protective devices (PSV/PSE) and how they relate
+########################################################
+ex:Tag_50_PSV2031 a hvens:InstrumentTag, ex:ProtectiveDevice ;
+  hvens:number "50-PSV2031" ;
+  ex:function "Protect filter package 50-CA50A from overpressure; lifts to overboard." ;
+  ex:protects ex:Tag_50_CA50A ;
+  ex:reliefTo ex:Tag_50_TG51 ;
+  ex:isShutdownRelated true ;
+  ex:shutdownSystem "ESD (assumed; confirm cause/effect)" .
+
+ex:Tag_50_PSV2032 a hvens:InstrumentTag, ex:ProtectiveDevice ;
+  hvens:number "50-PSV2032" ;
+  ex:function "Protect filter package 50-CA50B from overpressure; lifts to overboard." ;
+  ex:protects ex:Tag_50_CA50B ;
+  ex:reliefTo ex:Tag_50_TG51 ;
+  ex:isShutdownRelated true ;
+  ex:shutdownSystem "ESD (assumed; confirm cause/effect)" .
+
+# Rupture disc on hot SW return/aftercooler path (if applicable in your spec)
+ex:Tag_50_PSE4801AB a hvens:InstrumentTag, ex:ProtectiveDevice ;
+  hvens:number "50-PSE4801A/B" ;
+  ex:function "Rupture disc for aftercooler/return path; fails-safe to overboard." ;
+  ex:reliefTo ex:Tag_50_TG51 ;
+  ex:isShutdownRelated true ;
+  ex:shutdownSystem "ESD (assumed; confirm)" .
+
+########################################################
+# Control loops (assumed to participate in ESD actions)
+########################################################
+ex:Loop_PIC2115 a ex:Loop ;
+  rdfs:label "Lift pump discharge pressure control" ;
+  ex:function "Maintain lift header pressure; may initiate pump trip on low suction/DP." ;
+  ex:isShutdownRelated true ;
+  ex:shutdownSystem "ESD (assumed; confirm trip matrix)" ;
+  ex:trips ex:Tag_50_PH50A, ex:Tag_50_PH50B .
+
+ex:Loop_FIC2112 a ex:Loop ;
+  rdfs:label "PH50A minimum-flow recycle" ;
+  ex:function "Protect PH50A by opening min-flow recycle to maintain safe flow." ;
+  ex:isShutdownRelated true ; ex:shutdownSystem "ESD (assumed)" .
+
+ex:Loop_FIC2114 a ex:Loop ;
+  rdfs:label "PH50B minimum-flow recycle" ;
+  ex:function "Protect PH50B by opening min-flow recycle to maintain safe flow." ;
+  ex:isShutdownRelated true ; ex:shutdownSystem "ESD (assumed)" .

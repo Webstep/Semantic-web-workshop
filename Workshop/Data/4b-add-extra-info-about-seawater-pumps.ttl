@@ -1,0 +1,23 @@
+PREFIX data: <http://www.webstep.no/workshop/data/>
+PREFIX ens:  <http://www.webstep.no/workshop/ens/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+# Before starting on the RDFS stuff
+# Add extra data about the hot sea water circulation pumps.
+
+data:50_PA51A ens:tagNumber "50-PA51A" ; 
+  ens:partOfSystem data:System50 ;
+  ens:diffPressure_barg 4.2 ;
+  ens:minFlow_m3h 32.8 .
+
+data:50_PA51B ens:tagNumber "50-PA51B" ; 
+  ens:partOfSystem data:System50 ;
+  ens:diffPressure_barg 4.2 ;
+  ens:minFlow_m3h 32.8 .
+
+data:50_PA52 ens:tagNumber "50-PA52" ; 
+  ens:partOfSystem data:System50 ; 
+  ens:diffPressure_barg 3.8 ;
+  ens:operatingPressure_barg 6.7 ;
+  ens:designFlow_m3h 150.0 ; 
+  ens:power_kW 27.0 .

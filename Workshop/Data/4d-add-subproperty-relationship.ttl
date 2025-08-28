@@ -1,0 +1,8 @@
+PREFIX ens:  <http://www.webstep.no/workshop/ens/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+# ens:code as a subProperty of rdfs:label
+ens:code  rdfs:subPropertyOf  rdfs:label .
+
+# ens:tagNumber as a subProperty of rdfs:label
+ens:tagNumber  rdfs:subPropertyOf  rdfs:label .

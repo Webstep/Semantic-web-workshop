@@ -1,0 +1,33 @@
+# Queries used to grate data to section 4. Introduction to RDFS
+
+# Query 1: Create sub-class relationship between ens:Pump and the specializations ens:Pump_PA and ens:Pump_PH
+PREFIX ens:  <http://example.org/ens#>
+PREFIX data: <http://example.org/data#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+INSERT {
+  ?c rdfs:subClassOf ens:Pump .
+}
+WHERE {
+  ?c rdf:type ens:Pump .
+  FILTER EXISTS { ?x rdf:type ?c }
+};
+
+
+# Query 2: Check the result.
+CONSTRUCT { ?s ?p ?o . } 
+WHERE {
+  ?s ?p ?o .
+}
+
+
+# Query 3: Delete all assignments of ens:Pump
+DELETE {
+  ?s rdf:type ens:Pump .
+}
+WHERE {
+  ?s rdf:type ens:Pump .
+}
+
+# Query 4: Check the results

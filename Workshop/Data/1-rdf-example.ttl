@@ -10,7 +10,7 @@
 <http://www.webstep.no/workshop/ens/Pump_PH> <http://www.webstep.no/workshop/ens/name> "Submerged pump" .
 <http://www.webstep.no/workshop/ens/Pump_PH> <http://www.webstep.no/workshop/ens/description> "A submerged pump with the motor not submerged." .
 
-# Seawater lift pump instances (50-PH50A and 50-PH50B)
+# Seawater lift pump individuals (50-PH50A and 50-PH50B)
 <http://www.webstep.no/workshop/data/50_PH50A> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.webstep.no/workshop/ens/Pump_PH> .
 <http://www.webstep.no/workshop/data/50_PH50A> <http://www.webstep.no/workshop/ens/code>  "50-PH50A".
 <http://www.webstep.no/workshop/data/50_PH50A> <http://www.webstep.no/workshop/ens/partOfSystem>  "System50" .

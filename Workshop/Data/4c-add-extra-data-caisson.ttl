@@ -1,0 +1,33 @@
+PREFIX data: <http://www.webstep.no/workshop/data/>
+PREFIX ens:  <http://www.webstep.no/workshop/ens/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+# Intake / pump caissons
+data:50_TG50A
+  rdfs:label "50-TG50A" ;
+  ens:caissonRole ens:role-intake ;
+  ens:function "Pump caisson A: wet well supplying seawater lift pumps." ;
+  ens:locationDepth_m "68"^^xsd:double ;
+  ens:designTempMin_C "-9"^^xsd:double ;
+  ens:designTempMax_C "50"^^xsd:double ;
+  ens:designPressure_barg "0.2"^^xsd:double .
+
+data:50_TG50B 
+  rdfs:label "50-TG50B" ;
+  ens:caissonRole ens:role-intake ;
+  ens:function "Pump caisson B: wet well supplying seawater lift pumps." ;
+  ens:locationDepth_m "68"^^xsd:double ;
+  ens:designTempMin_C "-9"^^xsd:double ;
+  ens:designTempMax_C "50"^^xsd:double ;
+  ens:designPressure_barg "0.2"^^xsd:double .
+
+# Overboard caisson
+data:50_TG51
+  rdfs:label "50-TG51" ;
+  ens:caissonRole ens:role-overboard ;
+  ens:function "Overboard caisson for controlled discharge/relief to sea." ;
+  ens:locationDepth_m "20"^^xsd:double ;
+  ens:designTempMin_C "-9"^^xsd:double ;
+  ens:designTempMax_C "50"^^xsd:double ;
+  ens:designPressure_barg "0.2"^^xsd:double .

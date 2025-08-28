@@ -1,0 +1,73 @@
+PREFIX data: <http://www.webstep.no/workshop/data/>
+PREFIX ens:  <http://www.webstep.no/workshop/ens/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+# Define top class for equipment
+ens:Equipment a rdfs:Class ;
+    rdfs:label "Equipment" ;
+    rdfs:comment "An item of equipment." .
+
+# Define discipline class
+ens:Discipline a rdfs:Class ;
+    rdfs:label "Discipline" ;
+    rdfs:comment "A discipline in engineering." .
+
+# Define property to link equipment to disciplines
+ens:hasDiscipline a rdf:Property ;
+    rdfs:label "has discipline" ;
+    rdfs:comment "Links equipment to its relevant disciplines." ;
+    rdfs:domain ens:Equipment ;
+    rdfs:range ens:Discipline .
+
+# Add disciplines
+data:DiscA ens:code "A" ; 
+         ens:label "Engineering general" .
+
+data:DiscB ens:code "B" ;
+        ens:label "Building / civil engineering" .
+
+data:DiscC ens:code "C" ; 
+        ens:label "Civil/structural" .
+
+data:DiscE ens:code "E" ; 
+        ens:label "Electrical engineering" .
+
+data:DiscJ ens:code "J" ; 
+        ens:label "Instrumentation engineering" .
+
+data:DiscL ens:code "L" ; 
+        ens:label "Piping engineering" .
+
+data:DiscP ens:code "P" ;
+         ens:label "Process engineering" .
+
+data:DiscS ens:code "S" ; 
+        ens:label "Safety & loss prevention" .
+
+data:DiscT ens:code "T" ; 
+        ens:label "Telecommunications" .
+
+data:DiscW ens:code "W" ;
+         ens:label "Welding engineering" .
+
+data:DiscZ ens:code "Z" ; 
+        ens:label "Other" .
+
+# Add discipline data to equipment
+# Hot seawater circulation pumps
+data:50_PA51A ens:hasDiscipline data:DiscE, data:DiscJ , data:DiscS .
+data:50_PA51B ens:hasDiscipline data:DiscE, data:DiscJ , data:DiscS .
+data:50_PA52  ens:hasDiscipline data:DiscE, data:DiscJ , data:DiscS .
+
+# Sea water lift pumps
+data:50_PH50A ens:hasDiscipline data:DiscE, data:DiscJ .
+data:50_PH50B ens:hasDiscipline data:DiscE, data:DiscJ .
+
+# Filters
+data:50_CA50A ens:hasDiscipline data:DiscP, data:DiscJ .
+
+# Caissons
+data:50_TG50A ens:hasDiscipline data:DiscL .
+data:50_TG51 ens:hasDiscipline data:DiscL .

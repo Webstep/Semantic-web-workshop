@@ -1,0 +1,122 @@
+
+# Add extra data about the seawater pumps
+
+###################### SUB CLASS OF ######################
+
+# QUERY 1: RDFS SUB-CLASS-OF REASONING
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+CONSTRUCT { ?x rdf:type ?superClass . } 
+WHERE 
+{
+  ?class rdfs:subClassOf ?superClass .
+  ?x rdf:type ?class .
+}
+  
+# Restart Fuseki with reasoning enabled. Reload the data.
+
+# QUERY 2: ALL CLASS ASSIGNMENTS, BOTH ASSERTED AND INFERRED
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+CONSTRUCT { ?s a ?class . } 
+WHERE 
+{
+  ?s a ?class .
+  #FILTER(CONTAINS(STR(?class), "ens"))
+}
+
+###################### SUB PROPERTY OF ######################
+
+# Add data about pressure vessel
+
+# QUERY 3: REVIEW PROPERTIES
+SELECT ?predicate (COUNT(?predicate) AS ?numberOf)
+WHERE 
+{
+  ?subject ?predicate ?object .
+}
+GROUP BY ?predicate
+ORDER BY DESC(?numberOf)
+
+# QUERY 4: GET TRIPLES RELATED TO A SET OF PROPERTIES
+PREFIX rdfs:  <http://www.w3.org/2000/01/rdf-schema#> 
+PREFIX data:  <http://www.webstep.no/workshop/data/>
+PREFIX ens:  	<http://www.webstep.no/workshop/ens/>  
+CONSTRUCT
+{  
+  ?equipment ?labelProp ?label .
+} 
+WHERE 
+{
+  VALUES ?labelProp {ens:code ens:tagNumber rdfs:label}
+  ?equipment ?labelProp ?label .
+}
+
+# Add data making ens:code and ens:tagNumber sub-properties of rdfs:label
+
+# QUERY 5: RDFS SUB-PROPERTY-OF REASONING
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+CONSTRUCT { ?x ?superProperty ?y . } 
+WHERE 
+{
+  ?property rdfs:subPropertyOf ?superProperty .
+  ?x ?property ?y .
+}
+
+# Restart Fuseki with reasoning enabled. Reload the data.
+
+# QUERY 6: REVIEWING THE RESULT WITH REASONING
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+CONSTRUCT { ?s ?p ?o . } 
+ WHERE {
+  ?s ?p ?o . 
+  FILTER(?p = rdfs:label)
+}
+
+
+###################### DOMAIN AND RANGE ######################
+
+# Add data about disciplines
+
+# QUERY 7: CLASSIFICATION BASED ON DOMAIN
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+CONSTRUCT { ?subject a ?domain . } 
+ WHERE {
+  ?property rdfs:domain ?domain .
+  ?subject ?property ?object .  
+}
+
+# Restart Fuseki with reasoning enabled. Reload the data.
+
+# QUERY 8: REVIEW WITH REASONING ENABLED
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX ens:  	<http://www.webstep.no/workshop/ens/>
+CONSTRUCT { ?subject ?property ?object . } 
+WHERE {
+  ?subject a ?inferredClass ;
+		  ?property ?object .
+  FILTER(?inferredClass = ens:Equipment) 
+}
+
+# Restart Fuseki without reasoning enabled. Reload the data.
+
+# QUERY 9: CLASSIFICATION BASED ON RANGE
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+CONSTRUCT { ?object a ?range . } 
+ WHERE {
+  ?property rdfs:range ?range .
+  ?subject ?property ?object .  
+}
+
+# Restart Fuseki with reasoning enabled. Reload the data.
+
+# QUERY 10: REVIEW WITH REASONING ENABLED
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX ens:  	<http://www.webstep.no/workshop/ens/>
+CONSTRUCT { ?subject ?property ?object . } 
+WHERE {
+  ?subject a ?inferredClass ;
+		  ?property ?object .
+  FILTER(?inferredClass = ens:Discipline) 
+}
