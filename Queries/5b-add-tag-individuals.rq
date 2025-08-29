@@ -1,0 +1,36 @@
+#QUERY 1: ADDING INVERSE FUNCTIONAL PROPERTY HAS TAG
+PREFIX data: <http://www.webstep.no/workshop/data/>
+PREFIX ens:  <http://www.webstep.no/workshop/ens/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl:  <http://www.w3.org/2002/07/owl#>
+
+INSERT DATA {
+  ens:hasTag  a owl:ObjectProperty , owl:InverseFunctionalProperty ;
+              rdfs:label "has tag" ;
+              rdfs:comment "Links an equipment individual to its tag node (unique per tag)." .
+
+  data:Tag    a rdfs:Class ;
+              rdfs:label "Tag node" .
+}
+
+#QUERY 2: ASSIGN TAGS TO SOME OF THE PUMPS
+PREFIX data: <http://www.webstep.no/workshop/data/>
+PREFIX ens:  <http://www.webstep.no/workshop/ens/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+INSERT {
+  ?pump ens:hasTag ?tag .
+
+  ?tag  a data:Tag ;
+        rdfs:label ?tn .
+  
+  ?anotherPump ens:hasTag ?tag ;
+         ens:hasManufacturer "Webstep" .
+}
+WHERE {
+  ?pump a ens:Pump_PA ; 
+     ens:tagNumber ?tn .
+  
+  BIND( IRI(CONCAT("http://www.webstep.no/workshop/data/Tag-", ENCODE_FOR_URI(?tn))) AS ?tag )
+  BIND( IRI(CONCAT("http://www.webstep.no/workshop/data/", ENCODE_FOR_URI(?tn))) AS ?anotherPump )
+}

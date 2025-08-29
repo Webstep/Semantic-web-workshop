@@ -1,0 +1,166 @@
+PREFIX data: <http://www.webstep.no/workshop/data/>
+PREFIX ens:  <http://www.webstep.no/workshop/ens/>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX owl:  <http://www.w3.org/2002/07/owl#>
+
+#################################################################
+# Classes
+#################################################################
+
+ens:Equipment   a owl:Class ;
+    rdfs:comment "An item of equipment." ;
+    rdfs:label   "Equipment" .
+
+ens:Discipline  a owl:Class ;
+    rdfs:comment "A discipline in engineering." ;
+    rdfs:label   "Discipline" .
+
+ens:System      a owl:Class .
+
+ens:Pump        a owl:Class .
+ens:Pump_PA     a owl:Class ; rdfs:subClassOf ens:Pump .
+ens:Pump_PH     a owl:Class ; rdfs:subClassOf ens:Pump .
+
+#################################################################
+# Properties
+#################################################################
+
+# annotation properties
+ens:tagNumber   a owl:AnnotationProperty ; rdfs:subPropertyOf rdfs:label .
+ens:code        a owl:AnnotationProperty ; rdfs:subPropertyOf rdfs:label .
+ens:label       a owl:AnnotationProperty ; rdfs:subPropertyOf rdfs:label .
+ens:name        a owl:AnnotationProperty .
+ens:description a owl:AnnotationProperty .
+
+# object/datatype properties (declared, no domain/range constraints added)
+ens:hasDiscipline        a owl:ObjectProperty .
+ens:partOfSystem         a owl:ObjectProperty .
+ens:locationDepth        a owl:ObjectProperty .
+ens:hasUom               a owl:ObjectProperty .
+ens:caissonRole          a owl:ObjectProperty .
+
+ens:designFlow_m3h          a owl:DatatypeProperty .
+ens:diffPressure_barg       a owl:DatatypeProperty .
+ens:minFlow_m3h             a owl:DatatypeProperty .
+ens:normalFlow_m3h          a owl:DatatypeProperty .
+ens:operatingPressure_barg  a owl:DatatypeProperty .
+ens:power_kW                a owl:DatatypeProperty .
+ens:designPressure_barg     a owl:DatatypeProperty .
+ens:designTempMax_C         a owl:DatatypeProperty .
+ens:designTempMin_C         a owl:DatatypeProperty .
+ens:locationDepth_m         a owl:DatatypeProperty .
+ens:hasValue                a owl:DatatypeProperty .
+ens:function                a owl:DatatypeProperty .
+
+#################################################################
+# Class annotations
+#################################################################
+
+ens:Pump_PA ens:name "Centrifugal pump" .
+ens:Pump_PH ens:name "Submerged pump" ;
+            ens:description "A submerged pump with the motor not submerged." .
+
+#################################################################
+# Individuals (equipment, disciplines, systems, caissons)
+#################################################################
+
+data:System50  a ens:System ;
+    rdfs:label "System 50" ;
+    ens:hasDiscipline data:DiscP .
+
+data:DiscA a ens:Discipline ; ens:code "A" ; ens:label "Engineering general" .
+data:DiscB a ens:Discipline ; ens:code "B" ; ens:label "Building / civil engineering" .
+data:DiscC a ens:Discipline ; ens:code "C" ; ens:label "Civil/structural" .
+data:DiscE a ens:Discipline ; ens:code "E" ; ens:label "Electrical engineering" .
+data:DiscJ a ens:Discipline ; ens:code "J" ; ens:label "Instrumentation engineering" .
+data:DiscL a ens:Discipline ; ens:code "L" ; ens:label "Piping engineering" .
+data:DiscP a ens:Discipline ; ens:code "P" ; ens:label "Process engineering" .
+data:DiscS a ens:Discipline ; ens:code "S" ; ens:label "Safety & loss prevention" .
+data:DiscT a ens:Discipline ; ens:code "T" ; ens:label "Telecommunications" .
+data:DiscW a ens:Discipline ; ens:code "W" ; ens:label "Welding engineering" .
+data:DiscZ a ens:Discipline ; ens:code "Z" ; ens:label "Other" .
+
+data:50_PH50A  a ens:Pump_PH , ens:Equipment ;
+    ens:code "50-PH50A" ;
+    ens:designFlow_m3h 1460.0 ;
+    ens:diffPressure_barg 16.0 ;
+    ens:hasDiscipline data:DiscE , data:DiscJ ;
+    ens:locationDepth [ ens:hasUom    ens:meter ;
+                        ens:hasValue  16.0 ] ;
+    ens:minFlow_m3h 229.0 ;
+    ens:normalFlow_m3h 1200.0 ;
+    ens:operatingPressure_barg 9.0 ;
+    ens:partOfSystem data:System50 ;
+    ens:power_kW 700.0 .
+
+data:50_PH50B_locationDepth
+    ens:hasUom    ens:meter ;
+    ens:hasValue  16.0 .
+
+data:50_PH50B  a ens:Pump_PH , ens:Equipment ;
+    ens:code "50-PH50B" ;
+    ens:designFlow_m3h 1460.0 ;
+    ens:diffPressure_barg 16.0 ;
+    ens:hasDiscipline data:DiscE , data:DiscJ ;
+    ens:locationDepth data:50_PH50B_locationDepth ;
+    ens:minFlow_m3h 229.0 ;
+    ens:normalFlow_m3h 1200.0 ;
+    ens:operatingPressure_barg 9.0 ;
+    ens:partOfSystem data:System50 ;
+    ens:power_kW 700.0 .
+
+data:50_PA51A  a ens:Pump_PA , ens:Equipment ;
+    ens:diffPressure_barg 4.2 ;
+    ens:hasDiscipline data:DiscE , data:DiscS , data:DiscJ ;
+    ens:minFlow_m3h 32.8 ;
+    ens:partOfSystem data:System50 ;
+    ens:tagNumber "50-PA51A" .
+
+data:50_PA51B  a ens:Pump_PA , ens:Equipment ;
+    ens:diffPressure_barg 4.2 ;
+    ens:hasDiscipline data:DiscE , data:DiscS , data:DiscJ ;
+    ens:minFlow_m3h 32.8 ;
+    ens:partOfSystem data:System50 ;
+    ens:tagNumber "50-PA51B" .
+
+data:50_PA52  a ens:Pump_PA , ens:Equipment ;
+    ens:designFlow_m3h 150.0 ;
+    ens:diffPressure_barg 3.8 ;
+    ens:hasDiscipline data:DiscE , data:DiscS , data:DiscJ ;
+    ens:operatingPressure_barg 6.7 ;
+    ens:partOfSystem data:System50 ;
+    ens:power_kW 27.0 ;
+    ens:tagNumber "50-PA52" .
+
+data:50_CA50A  ens:hasDiscipline  data:DiscP , data:DiscJ .
+
+data:50_TG50A  a ens:Equipment ;
+    rdfs:label "50-TG50A" ;
+    ens:caissonRole ens:roleIntake ;
+    ens:designPressure_barg "0.2"^^xsd:double ;
+    ens:designTempMax_C "50"^^xsd:double ;
+    ens:designTempMin_C "-9"^^xsd:double ;
+    ens:function "Pump caisson A: wet well supplying seawater lift pumps." ;
+    ens:hasDiscipline data:DiscL ;
+    ens:locationDepth_m "68"^^xsd:double .
+
+data:50_TG50B  a ens:Equipment ;
+    rdfs:label "50-TG50B" ;
+    ens:caissonRole ens:roleIntake ;
+    ens:designPressure_barg "0.2"^^xsd:double ;
+    ens:designTempMax_C "50"^^xsd:double ;
+    ens:designTempMin_C "-9"^^xsd:double ;
+    ens:function "Pump caisson B: wet well supplying seawater lift pumps." ;
+    ens:locationDepth_m "68"^^xsd:double .
+
+data:50_TG51   a ens:Equipment ;
+    rdfs:label "50-TG51" ;
+    ens:caissonRole ens:roleOverboard ;
+    ens:designPressure_barg "0.2"^^xsd:double ;
+    ens:designTempMax_C "50"^^xsd:double ;
+    ens:designTempMin_C "-9"^^xsd:double ;
+    ens:function "Overboard caisson for controlled discharge/relief to sea." ;
+    ens:hasDiscipline data:DiscL ;
+    ens:locationDepth_m "20"^^xsd:double .

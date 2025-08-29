@@ -1,0 +1,47 @@
+# QUERY 1: TRYING TO DUPLICATE INVERSE FUNCTIONAL PROPERTY REASONING
+PREFIX owl:  <http://www.w3.org/2002/07/owl#>
+PREFIX data: <http://www.webstep.no/workshop/data/>
+PREFIX ens:  <http://www.webstep.no/workshop/ens/>
+
+CONSTRUCT {
+  # Outgoing: canonical subject gets every triple from any member
+  ?canon ?p ?o .
+
+  # Incoming: any triple pointing to a member now points to the canonical subject
+  ?s ?p ?canon .
+}
+WHERE {
+  VALUES ?seed { data:50_PA51B }            
+
+  ?seed ens:hasTag ?t .
+
+  # Compute a canonical IRI per tag: pick the smallest IRI string among members
+  {
+    SELECT ?t (MIN(STR(?m)) AS ?canonStr)
+    WHERE { ?m ens:hasTag ?t }
+    GROUP BY ?t
+  }
+  BIND( IRI(?canonStr) AS ?canon )
+
+  # All members in the same IFP-equivalence class
+  ?m ens:hasTag ?t .
+
+  # Outgoing triples of members → rewrite subject
+  { ?m ?p ?o }
+  UNION
+  # Incoming triples to members → rewrite object
+  { ?s ?p ?m }
+
+  # (Usually you don't want to re-emit asserted sameAs here)
+  FILTER (?p != owl:sameAs)
+}
+
+#QUERY 2: RESULT RETURNED BY INVERSE FUNCTIONAL PROPERTY
+PREFIX data: <http://www.webstep.no/workshop/data/>
+CONSTRUCT {?s ?p ?o }
+WHERE
+{
+  ?s ?p ?o .
+  FILTER(?s = data:50_PA51B)
+  #FILTER(?s = data:50-PA51B)
+}

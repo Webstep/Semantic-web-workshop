@@ -1,0 +1,110 @@
+PREFIX data: <http://www.webstep.no/workshop/data/>
+PREFIX ens:  <http://www.webstep.no/workshop/ens/>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX owl:  <http://www.w3.org/2002/07/owl#>
+
+############################################################
+# 1) Convert class declarations to OWL (and add missing ones)
+############################################################
+
+# Replace rdfs:Class with owl:Class where present
+DELETE {
+  ens:Equipment  a rdfs:Class .
+  ens:Discipline a rdfs:Class .
+}
+INSERT {
+  ens:Equipment  a owl:Class .
+  ens:Discipline a owl:Class .
+}
+WHERE {
+  OPTIONAL { ens:Equipment  a rdfs:Class . }
+  OPTIONAL { ens:Discipline a rdfs:Class . }
+};
+
+# Ensure these are declared as OWL classes (idempotent inserts)
+INSERT DATA {
+  ens:System   a owl:Class .
+  ens:Pump     a owl:Class .
+  ens:Pump_PA  a owl:Class .
+  ens:Pump_PH  a owl:Class .
+};
+
+############################################################
+# 2) Turn metadata into annotations (DL-safe on classes)
+############################################################
+
+# Declare the metadata properties as AnnotationProperty
+INSERT DATA {
+  ens:tagNumber   a owl:AnnotationProperty .
+  ens:code        a owl:AnnotationProperty .
+  ens:label       a owl:AnnotationProperty .
+  ens:name        a owl:AnnotationProperty .
+  ens:description a owl:AnnotationProperty .
+  # keep (or add) subPropertyOf label links
+  ens:label     rdfs:subPropertyOf rdfs:label .
+  # (The following likely already exist; safe to duplicate)
+  ens:code      rdfs:subPropertyOf rdfs:label .
+  ens:tagNumber rdfs:subPropertyOf rdfs:label .
+};
+
+############################################################
+# 3) Convert properties to OWL object/datatype properties
+############################################################
+
+# (a) hasDiscipline: remove RDFS domain/range & rdf:Property; declare as OWL ObjectProperty
+DELETE {
+  ens:hasDiscipline a rdf:Property .
+  ens:hasDiscipline rdfs:domain ?d .
+  ens:hasDiscipline rdfs:range  ?r .
+}
+INSERT {
+  ens:hasDiscipline a owl:ObjectProperty .
+}
+WHERE {
+  OPTIONAL { ens:hasDiscipline a rdf:Property . }
+  OPTIONAL { ens:hasDiscipline rdfs:domain ?d . }
+  OPTIONAL { ens:hasDiscipline rdfs:range  ?r . }
+};
+
+# (b) Declare the remaining object properties (no domains/ranges added)
+INSERT DATA {
+  ens:partOfSystem  a owl:ObjectProperty .
+  ens:locationDepth a owl:ObjectProperty .
+  ens:hasUom        a owl:ObjectProperty .
+  ens:caissonRole   a owl:ObjectProperty .
+};
+
+# (c) Declare datatype properties (no domains/ranges added)
+INSERT DATA {
+  ens:designFlow_m3h          a owl:DatatypeProperty .
+  ens:diffPressure_barg       a owl:DatatypeProperty .
+  ens:minFlow_m3h             a owl:DatatypeProperty .
+  ens:normalFlow_m3h          a owl:DatatypeProperty .
+  ens:operatingPressure_barg  a owl:DatatypeProperty .
+  ens:power_kW                a owl:DatatypeProperty .
+  ens:designPressure_barg     a owl:DatatypeProperty .
+  ens:designTempMax_C         a owl:DatatypeProperty .
+  ens:designTempMin_C         a owl:DatatypeProperty .
+  ens:locationDepth_m         a owl:DatatypeProperty .
+  ens:hasValue                a owl:DatatypeProperty .
+  ens:function                a owl:DatatypeProperty .
+};
+
+############################################################
+# 4) Optional: add missing rdf:type to certain individuals
+#     (matches the OWL version you wanted, still DL-safe)
+############################################################
+
+# Type the caisson-like resources as Equipment (harmless if already typed)
+INSERT DATA {
+  data:50_TG50A a ens:Equipment .
+  data:50_TG50B a ens:Equipment .
+  data:50_TG51  a ens:Equipment .
+};
+
+############################################################
+# 5) Keep IRIs (not literals) for roles/units used via object properties
+#    (No action needed if your data already uses IRIs like ens:role-intake, ens:meter)
+############################################################

@@ -1,0 +1,31 @@
+# QUERY 1: REASONING PATTERN FOR RESTRICTION WITH HAS VALUE
+PREFIX ens:  <http://www.webstep.no/workshop/ens/>
+PREFIX owl:  <http://www.w3.org/2002/07/owl#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+CONSTRUCT {
+  ?x rdf:type ?C , ?R
+}
+WHERE {
+  ?C owl:equivalentClass ?R .
+  ?R a owl:Restriction ;
+     owl:onProperty ?p ;
+     owl:hasValue ?v .
+  ?x ?p ?v .
+}
+
+# QUERY 2: VALIDATING RESTRICTION REASONING
+PREFIX ens:  <http://www.webstep.no/workshop/ens/>
+PREFIX owl:  <http://www.w3.org/2002/07/owl#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+CONSTRUCT {
+  ?s ?p ?o .
+}
+WHERE {
+  ?typeOfCaisson rdfs:subClassOf ens:Caisson .
+  ?s a ?typeOfCaisson ;
+     ?p ?o .
+
+}

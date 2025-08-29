@@ -1,0 +1,56 @@
+PREFIX data: <http://www.webstep.no/workshop/data/>
+PREFIX ens:  <http://www.webstep.no/workshop/ens/>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX owl:  <http://www.w3.org/2002/07/owl#>
+
+######### discharge predicates #########
+ens:dischargesTo a owl:TransitiveProperty .
+ens:feeds        a owl:ObjectProperty ; rdfs:subPropertyOf ens:dischargesTo .
+ens:reliefTo     a owl:ObjectProperty ; rdfs:subPropertyOf ens:dischargesTo .
+ens:suctionFrom  a owl:ObjectProperty .
+ens:receivesFrom a owl:ObjectProperty ; owl:inverseOf ens:dischargesTo .
+ens:providesSuctionTo a owl:ObjectProperty ; owl:inverseOf ens:suctionFrom .
+
+######### flow nodes created as needed #########
+# Per-equipment discharge headers (named as requested)
+data:50_PH50A_DischargeHeader rdfs:label "50-PH50A discharge header" .
+data:50_PH50B_DischargeHeader rdfs:label "50-PH50B discharge header" .
+data:50_CA50A_DischargeHeader rdfs:label "50-CA50A discharge header" .
+data:50_CA50B_DischargeHeader rdfs:label "50-CA50B discharge header" .
+data:50_PA51A_DischargeHeader rdfs:label "50-PA51A discharge header" .
+data:50_PA51B_DischargeHeader rdfs:label "50-PA51B discharge header" .
+data:50_TG51_DischargeHeader  rdfs:label "50-TG51 discharge header" .
+
+# Optional inlet connection points for filters
+data:50_CA50A_Inlet rdfs:label "50-CA50A inlet" .
+data:50_CA50B_Inlet rdfs:label "50-CA50B inlet" .
+
+# Sea endpoint
+data:Sea rdfs:label "Sea (outfall)" .
+
+######### connectivity assertions #########
+# Lift pumps → their discharge headers
+data:50_PH50A ens:dischargesTo data:50_PH50A_DischargeHeader .
+data:50_PH50B ens:dischargesTo data:50_PH50B_DischargeHeader .
+
+# Lift pump discharge headers feed the filter inlets
+data:50_PH50A_DischargeHeader ens:feeds data:50_CA50A_Inlet, data:50_CA50B_Inlet .
+data:50_PH50B_DischargeHeader ens:feeds data:50_CA50A_Inlet, data:50_CA50B_Inlet .
+
+# Filter inlets → filters → their discharge headers
+data:50_CA50A_Inlet ens:dischargesTo data:50_CA50A .
+data:50_CA50B_Inlet ens:dischargesTo data:50_CA50B .
+data:50_CA50A ens:dischargesTo data:50_CA50A_DischargeHeader .
+data:50_CA50B ens:dischargesTo data:50_CA50B_DischargeHeader .
+
+# Hot-SW circulation pumps → their discharge headers (downstream use)
+data:50_PA51A ens:dischargesTo data:50_PA51A_DischargeHeader .
+data:50_PA51B ens:dischargesTo data:50_PA51B_DischargeHeader .
+
+# Relief chain: protective devices → overboard caisson → Sea
+data:50_PA51A_DischargeHeader  ens:reliefTo     data:50_TG51 .
+data:50_PA51B_DischargeHeader  ens:reliefTo     data:50_TG51 .
+data:50_TG51     ens:dischargesTo data:50_TG51_DischargeHeader .
+data:50_TG51_DischargeHeader ens:dischargesTo data:Sea .

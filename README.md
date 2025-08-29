@@ -116,13 +116,3 @@ Woohoo!
 DISC is a collaboration between Equinor, Aker BP, Aker Solutions and Aibel with the goal of solving interoperability problems in the industry. In December they’re hosting another Show & Tell, and Webstep wants to build a proof-of-concept for a digital plant model based on IMF.  
 
 **15:30 – 16:00 – Wrap-up**
-
-
-
-
-
-## Rowlet
-Small tool for playing around with RDF data. It consist of a simple Web interface (RowletClient) and API (RowletApi)
-
-The API will connect to a local Fuseki on localhost:3030.
-

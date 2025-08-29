@@ -1,0 +1,27 @@
+@prefix :    <http://example.org/ontology#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:<http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+: a owl:Ontology .
+
+:Woman  a owl:Class .
+:Person a owl:Class .
+:Mother a owl:Class ;
+  rdfs:subClassOf [
+    a owl:Class ;
+    owl:intersectionOf (
+      :Woman
+      [ a owl:Restriction ;
+        owl:onProperty :hasChild ;
+        owl:someValuesFrom :Person
+      ]
+    )
+  ] .
+
+:hasChild a owl:ObjectProperty ;
+  rdfs:domain :Person ;
+  rdfs:range  :Person .
+
+:Mary a :Mother .

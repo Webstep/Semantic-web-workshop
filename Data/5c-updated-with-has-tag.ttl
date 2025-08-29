@@ -1,0 +1,297 @@
+PREFIX data: <http://www.webstep.no/workshop/data/>
+PREFIX ens:  <http://www.webstep.no/workshop/ens/>
+PREFIX owl:  <http://www.w3.org/2002/07/owl#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+
+data:50_PH50A  rdf:type             ens:Pump_PH , ens:Equipment;
+        ens:code                    "50-PH50A";
+        ens:designFlow_m3h          1460.0;
+        ens:diffPressure_barg       16.0;
+        ens:dischargesTo            data:50_PH50A_DischargeHeader;
+        ens:hasDiscipline           data:DiscE , data:DiscJ;
+        ens:locationDepth           [ ens:hasUom    ens:meter;
+                                      ens:hasValue  16.0
+                                    ];
+        ens:minFlow_m3h             229.0;
+        ens:normalFlow_m3h          1200.0;
+        ens:operatingPressure_barg  9.0;
+        ens:partOfSystem            data:System50;
+        ens:power_kW                700.0 .
+
+ens:hasTag  rdf:type  owl:InverseFunctionalProperty , owl:ObjectProperty;
+        rdfs:comment  "Links an equipment individual to its tag node (unique per tag).";
+        rdfs:label    "has tag" .
+
+ens:receivesFrom  rdf:type  owl:ObjectProperty;
+        owl:inverseOf  ens:dischargesTo .
+
+ens:Pump_PA  rdf:type    owl:Class;
+        rdfs:subClassOf  ens:Pump;
+        ens:name         "Centrifugal pump" .
+
+data:DiscE  rdf:type  ens:Discipline;
+        ens:code   "E";
+        ens:label  "Electrical engineering" .
+
+data:50_CA50A_Inlet  rdfs:label  "50-CA50A inlet";
+        ens:dischargesTo  data:50_CA50A .
+
+data:Tag  rdf:type  rdfs:Class;
+        rdfs:label  "Tag node" .
+
+ens:description  rdf:type  owl:AnnotationProperty .
+
+data:50_TG50A  rdf:type          ens:Equipment;
+        rdfs:label               "50-TG50A";
+        ens:caissonRole          ens:roleIntake;
+        ens:designPressure_barg  "0.2"^^xsd:double;
+        ens:designTempMax_C      "50"^^xsd:double;
+        ens:designTempMin_C      "-9"^^xsd:double;
+        ens:function             "Pump caisson A: wet well supplying seawater lift pumps.";
+        ens:hasDiscipline        data:DiscL;
+        ens:locationDepth_m      "68"^^xsd:double .
+
+ens:designTempMax_C  rdf:type  owl:DatatypeProperty .
+
+data:50-PA51B  ens:hasManufacturer  "Webstep";
+        ens:hasTag           data:Tag-50-PA51B .
+
+ens:System  rdf:type  owl:Class .
+
+ens:tagNumber  rdf:type     owl:AnnotationProperty;
+        rdfs:subPropertyOf  rdfs:label .
+
+data:50_PA51A  rdf:type        ens:Pump_PA , ens:Equipment;
+        ens:diffPressure_barg  4.2;
+        ens:dischargesTo       data:50_PA51A_DischargeHeader;
+        ens:hasDiscipline      data:DiscE , data:DiscS , data:DiscJ;
+        ens:hasTag             data:Tag-50-PA51A;
+        ens:minFlow_m3h        32.8;
+        ens:partOfSystem       data:System50;
+        ens:tagNumber          "50-PA51A" .
+
+data:50_PA51B_DischargeHeader
+        rdfs:label    "50-PA51B discharge header";
+        ens:reliefTo  data:50_TG51 .
+
+data:DiscZ  rdf:type  ens:Discipline;
+        ens:code   "Z";
+        ens:label  "Other" .
+
+ens:locationDepth_m  rdf:type  owl:DatatypeProperty .
+
+data:50_PH50B_DischargeHeader
+        rdfs:label  "50-PH50B discharge header";
+        ens:feeds   data:50_CA50A_Inlet , data:50_CA50B_Inlet .
+
+data:50_PA51A_DischargeHeader
+        rdfs:label    "50-PA51A discharge header";
+        ens:reliefTo  data:50_TG51 .
+
+data:50_CA50B_Inlet  rdfs:label  "50-CA50B inlet";
+        ens:dischargesTo  data:50_CA50B .
+
+data:DiscA  rdf:type  ens:Discipline;
+        ens:code   "A";
+        ens:label  "Engineering general" .
+
+data:Tag-50-PA51A  rdf:type  data:Tag;
+        rdfs:label  "50-PA51A" .
+
+data:50-PA52  ens:hasManufacturer  "Webstep";
+        ens:hasTag           data:Tag-50-PA52 .
+
+data:DiscW  rdf:type  ens:Discipline;
+        ens:code   "W";
+        ens:label  "Welding engineering" .
+
+data:50-PA51A  ens:hasManufacturer  "Webstep";
+        ens:hasTag           data:Tag-50-PA51A .
+
+data:50_TG51  rdf:type           ens:Equipment;
+        rdfs:label               "50-TG51";
+        ens:caissonRole          ens:roleOverboard;
+        ens:designPressure_barg  "0.2"^^xsd:double;
+        ens:designTempMax_C      "50"^^xsd:double;
+        ens:designTempMin_C      "-9"^^xsd:double;
+        ens:dischargesTo         data:50_TG51_DischargeHeader;
+        ens:function             "Overboard caisson for controlled discharge/relief to sea.";
+        ens:hasDiscipline        data:DiscL;
+        ens:locationDepth_m      "20"^^xsd:double .
+
+data:50_PH50A_DischargeHeader
+        rdfs:label  "50-PH50A discharge header";
+        ens:feeds   data:50_CA50A_Inlet , data:50_CA50B_Inlet .
+
+data:50_CA50B  ens:dischargesTo  data:50_CA50B_DischargeHeader .
+
+ens:caissonRole  rdf:type  owl:ObjectProperty .
+
+ens:hasValue  rdf:type  owl:DatatypeProperty .
+
+data:50_PA51B  rdf:type        ens:Pump_PA , ens:Equipment;
+        ens:diffPressure_barg  4.2;
+        ens:dischargesTo       data:50_PA51B_DischargeHeader;
+        ens:hasDiscipline      data:DiscE , data:DiscS , data:DiscJ;
+        ens:hasTag             data:Tag-50-PA51B;
+        ens:minFlow_m3h        32.8;
+        ens:partOfSystem       data:System50;
+        ens:tagNumber          "50-PA51B" .
+
+ens:hasUom  rdf:type  owl:ObjectProperty .
+
+ens:Pump_PH  rdf:type    owl:Class;
+        rdfs:subClassOf  ens:Pump;
+        ens:description  "A submerged pump with the motor not submerged.";
+        ens:name         "Submerged pump" .
+
+data:50_CA50B_DischargeHeader
+        rdfs:label  "50-CA50B discharge header" .
+
+ens:Equipment  rdf:type  owl:Class;
+        rdfs:comment  "An item of equipment.";
+        rdfs:label    "Equipment" .
+
+data:DiscP  rdf:type  ens:Discipline;
+        ens:code   "P";
+        ens:label  "Process engineering" .
+
+ens:feeds  rdf:type         owl:ObjectProperty;
+        rdfs:subPropertyOf  ens:dischargesTo .
+
+ens:label  rdf:type         owl:AnnotationProperty;
+        rdfs:subPropertyOf  rdfs:label .
+
+ens:function  rdf:type  owl:DatatypeProperty .
+
+data:50_PH50B_locationDepth
+        ens:hasUom    ens:meter;
+        ens:hasValue  16.0 .
+
+data:Tag-50-PA51B  rdf:type  data:Tag;
+        rdfs:label  "50-PA51B" .
+
+ens:minFlow_m3h  rdf:type  owl:DatatypeProperty .
+
+data:DiscL  rdf:type  ens:Discipline;
+        ens:code   "L";
+        ens:label  "Piping engineering" .
+
+data:50_PA52  rdf:type              ens:Pump_PA , ens:Equipment;
+        ens:designFlow_m3h          150.0;
+        ens:diffPressure_barg       3.8;
+        ens:hasDiscipline           data:DiscE , data:DiscS , data:DiscJ;
+        ens:hasTag                  data:Tag-50-PA52;
+        ens:operatingPressure_barg  6.7;
+        ens:partOfSystem            data:System50;
+        ens:power_kW                27.0;
+        ens:tagNumber               "50-PA52" .
+
+ens:normalFlow_m3h  rdf:type  owl:DatatypeProperty .
+
+ens:Pump  rdf:type  owl:Class .
+
+ens:designPressure_barg
+        rdf:type  owl:DatatypeProperty .
+
+ens:name  rdf:type  owl:AnnotationProperty .
+
+data:50_CA50A  ens:dischargesTo  data:50_CA50A_DischargeHeader;
+        ens:hasDiscipline  data:DiscP , data:DiscJ .
+
+ens:reliefTo  rdf:type      owl:ObjectProperty;
+        rdfs:subPropertyOf  ens:dischargesTo .
+
+ens:dischargesTo  rdf:type  owl:TransitiveProperty .
+
+ens:code  rdf:type          owl:AnnotationProperty;
+        rdfs:subPropertyOf  rdfs:label .
+        
+
+data:DiscB  rdf:type  ens:Discipline;
+        ens:code   "B";
+        ens:label  "Building / civil engineering" .
+
+ens:suctionFrom  rdf:type  owl:ObjectProperty .
+
+data:50_TG50B  rdf:type          ens:Equipment;
+        rdfs:label               "50-TG50B";
+        ens:caissonRole          ens:roleIntake;
+        ens:designPressure_barg  "0.2"^^xsd:double;
+        ens:designTempMax_C      "50"^^xsd:double;
+        ens:designTempMin_C      "-9"^^xsd:double;
+        ens:function             "Pump caisson B: wet well supplying seawater lift pumps.";
+        ens:locationDepth_m      "68"^^xsd:double .
+
+data:DiscS  rdf:type  ens:Discipline;
+        ens:code   "S";
+        ens:label  "Safety & loss prevention" .
+
+data:Sea  rdfs:label  "Sea (outfall)" .
+
+ens:operatingPressure_barg
+        rdf:type  owl:DatatypeProperty .
+
+ens:designTempMin_C  rdf:type  owl:DatatypeProperty .
+
+ens:locationDepth  rdf:type  owl:ObjectProperty .
+
+ens:diffPressure_barg
+        rdf:type  owl:DatatypeProperty .
+
+data:Tag-50-PA52  rdf:type  data:Tag;
+        rdfs:label  "50-PA52" .
+
+ens:power_kW  rdf:type  owl:DatatypeProperty .
+
+data:System50  rdf:type    ens:System;
+        rdfs:label         "System 50";
+        ens:hasDiscipline  data:DiscP .
+
+ens:Discipline  rdf:type  owl:Class;
+        rdfs:comment  "A discipline in engineering.";
+        rdfs:label    "Discipline" .
+
+data:DiscJ  rdf:type  ens:Discipline;
+        ens:code   "J";
+        ens:label  "Instrumentation engineering" .
+
+ens:providesSuctionTo
+        rdf:type       owl:ObjectProperty;
+        owl:inverseOf  ens:suctionFrom .
+
+ens:designFlow_m3h  rdf:type  owl:DatatypeProperty .
+
+ens:partOfSystem  rdf:type  owl:ObjectProperty .
+
+ens:hasDiscipline  rdf:type  owl:ObjectProperty .
+
+data:50_CA50A_DischargeHeader
+        rdfs:label  "50-CA50A discharge header" .
+
+data:50_TG51_DischargeHeader
+        rdfs:label        "50-TG51 discharge header";
+        ens:dischargesTo  data:Sea .
+
+data:DiscC  rdf:type  ens:Discipline;
+        ens:code   "C";
+        ens:label  "Civil/structural" .
+
+data:DiscT  rdf:type  ens:Discipline;
+        ens:code   "T";
+        ens:label  "Telecommunications" .
+
+data:50_PH50B  rdf:type             ens:Pump_PH , ens:Equipment;
+        ens:code                    "50-PH50B";
+        ens:designFlow_m3h          1460.0;
+        ens:diffPressure_barg       16.0;
+        ens:dischargesTo            data:50_PH50B_DischargeHeader;
+        ens:hasDiscipline           data:DiscE , data:DiscJ;
+        ens:locationDepth           data:50_PH50B_locationDepth;
+        ens:minFlow_m3h             229.0;
+        ens:normalFlow_m3h          1200.0;
+        ens:operatingPressure_barg  9.0;
+        ens:partOfSystem            data:System50;
+        ens:power_kW                700.0 .

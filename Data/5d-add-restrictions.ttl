@@ -1,0 +1,19 @@
+PREFIX ens:  <http://www.webstep.no/workshop/ens/>
+PREFIX owl:  <http://www.w3.org/2002/07/owl#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+ens:InsideCaisson  a owl:Class ;
+  rdfs:subClassOf ens:Caisson ;
+  owl:equivalentClass [ a owl:Restriction ;
+    owl:onProperty ens:caissonRole ;
+    owl:hasValue   ens:roleIntake
+  ] .
+
+ens:OutsideCaisson a owl:Class ;
+  rdfs:subClassOf ens:Caisson ;
+  owl:equivalentClass [ a owl:Restriction ;
+    owl:onProperty ens:caissonRole ;
+    owl:hasValue   ens:roleOverboard;
+  ] .
+
+ens:Caisson a owl:Class ;

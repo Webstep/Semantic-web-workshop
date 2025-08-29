@@ -1,0 +1,154 @@
+# Add extra data about discharge to sea
+
+###################### TRANSITIVE PROPERTIES ######################
+
+# QUERY 1: GENERIC TRANSITIVE CLOSURE
+PREFIX owl:  <http://www.w3.org/2002/07/owl#>
+CONSTRUCT {
+  ?x ?p ?z .
+}
+WHERE {
+  ?p a owl:TransitiveProperty .
+  ?x ?p ?y .
+  ?y ?p ?z .
+  FILTER (?x != ?z)
+}
+
+# QUERY 2: TRANSITIVE CLOSURE FROM A STARTING POINT
+PREFIX data: <http://www.webstep.no/workshop/data/>
+PREFIX ens:  <http://www.webstep.no/workshop/ens/>
+
+SELECT DISTINCT ?downstream
+WHERE {
+  VALUES ?start { data:50_PH50A }                        
+  ?start (ens:dischargesTo|ens:feeds|ens:reliefTo)* ?downstream .
+}
+
+# QUERY 3: TRANSITIVE CLOSURE TO A STOPPING POINT
+PREFIX data: <http://www.webstep.no/workshop/data/>
+PREFIX ens:  <http://www.webstep.no/workshop/ens/>
+
+SELECT DISTINCT ?upstream
+WHERE {
+  VALUES ?stop { data:Sea }                        
+  ?upstream (ens:dischargesTo|ens:feeds|ens:reliefTo)* ?stop .
+}
+
+# QUERY 4: RETURNING FINAL SINKS
+PREFIX data: <http://www.webstep.no/workshop/data/>
+PREFIX ens:  <http://www.webstep.no/workshop/ens/>
+
+SELECT DISTINCT ?sink
+WHERE {
+  VALUES ?start { data:50_PH50A }
+  ?start (ens:dischargesTo|ens:feeds|ens:reliefTo)+ ?sink .
+  FILTER NOT EXISTS {
+    ?sink (ens:dischargesTo|ens:feeds|ens:reliefTo) ?anyFurther .
+  }
+}
+
+# QUERY 5: DOES IT REACH THE SEA?
+PREFIX ens:  <http://example.com/hvens#>
+PREFIX data: <http://example.com/hvens/data#>
+
+ASK {
+  VALUES ?start { data:50_PH50A }
+  ?start (ens:dischargesTo|ens:feeds|ens:reliefTo)+ data:Sea .
+}
+
+# QUERY 6: CONSTRUCTING THE PATH
+PREFIX data: <http://www.webstep.no/workshop/data/>
+PREFIX ens:  <http://www.webstep.no/workshop/ens/>
+
+CONSTRUCT {
+  ?s ens:dischargesTo ?o .
+}
+WHERE {
+  VALUES ?start { data:50_PH50A }
+
+  # Reachable nodes from ?start
+  ?start (ens:dischargesTo|ens:feeds|ens:reliefTo)* ?s .
+  ?start (ens:dischargesTo|ens:feeds|ens:reliefTo)* ?o .
+
+  # Keep only direct edges between reachable nodes
+  ?s (ens:dischargesTo|ens:feeds|ens:reliefTo) ?o .
+}
+
+################# WITH REASONING ####################
+
+# QUERY 7: TRANSITIVE CLOSURE FROM A STARTING POINT
+PREFIX data: <http://www.webstep.no/workshop/data/>
+PREFIX ens:  <http://www.webstep.no/workshop/ens/>
+
+SELECT DISTINCT ?upstream
+WHERE {
+  VALUES ?stop { data:Sea }                        
+  ?upstream ens:dischargesTo ?stop .
+}
+
+PREFIX data: <http://www.webstep.no/workshop/data/>
+PREFIX ens:  <http://www.webstep.no/workshop/ens/>
+
+# QUERY 8: TRANSITIVE CLOSURE TO A STOPPING POINT
+SELECT DISTINCT ?upstream
+WHERE {
+  VALUES ?stop { data:Sea }                        
+  ?upstream ens:dischargesTo ?stop .
+}
+
+# QUERY 9: RETURNING FINAL SINKS
+PREFIX data: <http://www.webstep.no/workshop/data/>
+PREFIX ens:  <http://www.webstep.no/workshop/ens/>
+
+SELECT DISTINCT ?sink
+WHERE {
+  VALUES ?start { data:50_PH50A }
+  ?start ens:dischargesTo ?sink .
+  FILTER NOT EXISTS {
+    ?sink ens:dischargesTo ?anyFurther .
+  }
+}
+
+# QUERY 10: CONSTRUCTING THE PATH - ATTEMPT 1
+PREFIX data: <http://www.webstep.no/workshop/data/>
+PREFIX ens:  <http://www.webstep.no/workshop/ens/>
+
+CONSTRUCT {
+  ?s ens:dischargesTo ?o .
+}
+WHERE {
+  VALUES ?start { data:50_PH50A }
+
+  # Reachable nodes from ?start
+  ?start ens:dischargesTo* ?s .
+  ?start ens:dischargesTo ?o .
+
+  # Keep only direct edges between reachable nodes
+  ?s ens:dischargesTo ?o .
+}
+
+# QUERY 11: CONSTRUCTING THE PATH - ATTEMPT 2
+PREFIX data: <http://www.webstep.no/workshop/data/>
+PREFIX ens:  <http://www.webstep.no/workshop/ens/>
+
+CONSTRUCT {
+  ?s ens:dischargesTo ?o .
+}
+WHERE {
+  VALUES ?start { data:50_PH50A } 
+
+ # Reachable nodes from ?start
+  ?start ens:dischargesTo* ?s .
+  ?start ens:dischargesTo ?o .
+
+  # candidate direct edge (in the closure)
+  ?s ens:dischargesTo ?o .
+  FILTER (?s != ?o)
+
+  # prune any edge that has a proper intermediate hop
+  FILTER NOT EXISTS {
+    ?s  ens:dischargesTo ?mid .
+    ?mid ens:dischargesTo ?o .
+    FILTER (?mid != ?s && ?mid != ?o)
+  }
+}
